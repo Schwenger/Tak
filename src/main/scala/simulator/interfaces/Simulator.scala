@@ -2,17 +2,27 @@ package simulator.interfaces
 
 import java.util.concurrent.atomic.AtomicInteger
 
+import simulator.interfaces.PlayerColor.{Black, PlayerColor, Red}
+import simulator.interfaces.game_elements.Move
+import simulator.logic.ActionExecutor
 import simulator.model.GameState
 
 import scala.collection.mutable
 import scala.concurrent.Future
+import scala.util.Try
 
 private class Simulator(red: Player, black: Player) {
   val state = new GameState
+  var turn = 0
+
   def simulateTurn() = {
 
   }
-  def gameOver: Boolean = GameLogic.gameOver(state)
+
+  def simulateFirstTurn() = {
+  }
+
+  def gameOver: Option[PlayerColor] = GameLogic.gameOver(state)
 }
 
 object Simulator {
@@ -22,13 +32,28 @@ object Simulator {
   val over = new AtomicInteger(0)
   val won = (new AtomicInteger(0), new AtomicInteger(0))
 
+  /**
+    * Simulates a whole game.
+    * @param red Starting Player
+    * @param black Second Player
+    * @return results are provided to the players directly using the respective accept method
+    */
   def simulate(red: Player, black: Player) = {
-    // TODO: run simulation in new thread.
+    // TODO use outcome
     Future {
       val sim = new Simulator(red, black)
+      var result: Option[PlayerColor] = None
+      sim.simulateFirstTurn()
       do {
         sim.simulateTurn()
-      } while (sim.gameOver)
+        result = sim.gameOver
+      } while (result.isEmpty)
+      running.decrementAndGet()
+      over.incrementAndGet()
+      result.get match {
+        case Red => won._1.incrementAndGet()
+        case Black => won._2.incrementAndGet()
+      }
     }
   }
 }

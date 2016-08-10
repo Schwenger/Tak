@@ -1,5 +1,16 @@
 package simulator.interfaces.game_elements
 
-class Field {
+class Field(pos: Position) {
+
+  var content: Option[Token] = None
+
+  /**
+    * Stacks the other field's content on top this this field's content.
+    * @param other: new top of the stack.
+    */
+  def +=(other: Field) = {
+    assert(other.content.isDefined)
+    this.content = Some(other.content.get :: this.content.getOrElse(Nil))
+  }
 
 }
