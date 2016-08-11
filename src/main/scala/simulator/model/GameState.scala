@@ -4,4 +4,6 @@ import simulator.interfaces.State
 
 class GameState extends State {
 
+  def checksum = 13
+
 }

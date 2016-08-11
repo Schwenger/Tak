@@ -1,7 +1,7 @@
 package simulator.interfaces
 
 import simulator.interfaces.PlayerColor.PlayerColor
-import simulator.interfaces.game_elements.{Action, Position, Result}
+import simulator.interfaces.game_elements.{Action, Position, Result, Turn}
 
 object PlayerColor {
   sealed trait PlayerColor
@@ -27,7 +27,7 @@ trait Player {
     * @param state the current game state
     * @return the action that is supposed to be executed next for this player.
     */
-  def nextAction(opponent: Action, player: Action, state: State): Action
+  def nextAction(turn: Turn, state: State): Action
 
   /**
     * Called one after init and before the first call to nextAction.

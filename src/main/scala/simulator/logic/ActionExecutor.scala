@@ -4,7 +4,6 @@ import simulator.interfaces.PlayerColor.PlayerColor
 import simulator.interfaces.{GameLogic, State}
 import simulator.interfaces.game_elements.Action
 
-import scala.util.{Failure, Success, Try}
 
 object ActionExecutor {
   /**
@@ -16,8 +15,8 @@ object ActionExecutor {
     */
   // NOTE: The action executor always copies the whole board which is extremely inefficient.
   // TODO: when handing a state to the player, record checksum or similar to avoid spurious behavior
-  def apply(action: Action, state: State, player: PlayerColor): State = {
+  def apply[T <: State](action: Action, state: T, player: PlayerColor): T = {
     assert(GameLogic.isValid(state, action)(player))
-    null // TODO
+    null.asInstanceOf[T] // TODO
   }
 }
