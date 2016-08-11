@@ -1,6 +1,6 @@
 package simulator.interfaces.game_elements
 
-class Field(pos: Position) {
+case class Field(pos: Position) {
 
   var content: Option[Token] = None
 

@@ -8,6 +8,8 @@ import simulator.interfaces.game_elements.{Field, Position}
   */
 trait State {
 
+  val size: Int
+
   // Board Information
   def apply(pos: Position): Field
   def apply(x: Int, y: Int): Field
@@ -24,7 +26,6 @@ trait State {
   def piecesLeft(player: PlayerColor): Int = minionsLeft(player) + capstonesLeft(player)
 
   // Static Information
-  def size: Int
   def minionsPerPlayer: Int
   def capstonesPerPlayer: Int
 

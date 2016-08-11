@@ -14,6 +14,8 @@ case class PlayerMapping[T](red: T, black: T) {
     case Red => red
     case Black => black
   }
+  def map[S](trans: (T, PlayerColor) => S): PlayerMapping[S] =
+    PlayerMapping(trans(this.red, Red), trans(this.black, Black))
 }
 
 trait Player {
