@@ -1,12 +1,19 @@
 package simulator.interfaces
 
-import simulator.interfaces.PlayerColor.PlayerColor
-import simulator.interfaces.game_elements.{Action, Position, Result, Turn}
+import simulator.interfaces.PlayerColor.{Black, PlayerColor, Red}
+import simulator.interfaces.game_elements.{Action, Position, Result}
 
 object PlayerColor {
   sealed trait PlayerColor
   case object Red extends PlayerColor
   case object Black extends PlayerColor
+}
+
+case class PlayerMapping[T](red: T, black: T) {
+  def apply(color: PlayerColor): T = color match {
+    case Red => red
+    case Black => black
+  }
 }
 
 trait Player {
@@ -22,12 +29,11 @@ trait Player {
   /**
     * Called multiple times during one game.
     * Computes the next action the player deems most sensible by their own metrics.
-    * @param opponent the opponents last action
-    * @param player this players last action
+    * @param turn this player's and the opponent's last action
     * @param state the current game state
     * @return the action that is supposed to be executed next for this player.
     */
-  def nextAction(turn: Turn, state: State): Action
+  def nextAction(turn: PlayerMapping[Action], state: State): Action
 
   /**
     * Called one after init and before the first call to nextAction.

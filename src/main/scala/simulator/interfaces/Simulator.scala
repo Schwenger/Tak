@@ -3,7 +3,7 @@ package simulator.interfaces
 import java.util.concurrent.atomic.AtomicInteger
 
 import simulator.interfaces.PlayerColor.{Black, PlayerColor, Red}
-import simulator.interfaces.game_elements.{PlaceToken, Turn}
+import simulator.interfaces.game_elements.{Action, PlaceMinion}
 import simulator.logic.ActionExecutor
 import simulator.model.GameState
 
@@ -15,7 +15,7 @@ class Simulation(red: Player, black: Player) {
 
   var state: GameState = new GameState
   var turn = 0
-  private var turns: List[Turn] = Nil
+  private var turns: List[PlayerMapping[Action]] = Nil
 
   def simulateTurn() = {
     assert(turns.length == turn)
@@ -26,16 +26,16 @@ class Simulation(red: Player, black: Player) {
     state = ActionExecutor(rAction, state, Red)
 
     if(gameOver.isDefined) {
-      turns ::= Turn(rAction, null) // not particularly pretty.
+      turns ::= PlayerMapping(rAction, null) // not particularly pretty.
     } else {
-      val half_turn = Turn(red = rAction, black = turns.head.black)
+      val half_turn = PlayerMapping(red = rAction, black = turns.head.black)
 
       val checksum = state.checksum
       val bAction = black.nextAction(half_turn, state)
       assert(checksum == state.checksum)
       state = ActionExecutor(bAction, state, Black)
 
-      turns ::= Turn(rAction, bAction)
+      turns ::= PlayerMapping(rAction, bAction)
     }
     turn += 1
   }
@@ -45,11 +45,11 @@ class Simulation(red: Player, black: Player) {
     black.init(state)
     val rDec = red.firstAction(None)
     val bDec = black.firstAction(Some(rDec))
-    val rAction = PlaceToken(bDec, pseudo = true)
-    val bAction = PlaceToken(rDec, pseudo = true)
+    val rAction = PlaceMinion(bDec, pseudo = true)
+    val bAction = PlaceMinion(rDec, pseudo = true)
     state = ActionExecutor(rAction, state, Red)
     state = ActionExecutor(bAction, state, Black)
-    turns ::= Turn(rAction, bAction)
+    turns ::= PlayerMapping(rAction, bAction)
     turn += 1
   }
 
