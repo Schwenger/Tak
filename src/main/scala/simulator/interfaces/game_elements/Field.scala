@@ -10,7 +10,10 @@ class Field(pos: Position) {
     */
   def +=(other: Field) = {
     assert(other.content.isDefined)
-    this.content = Some(other.content.get :: this.content.getOrElse(Nil))
+    if(this.content.isDefined)
+      this.content = Some(other.content.get :: this.content.get)
+    else
+      this.content = other.content
   }
 
 }
