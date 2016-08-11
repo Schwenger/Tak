@@ -8,10 +8,10 @@ import simulator.logic.ActionExecutor
 import simulator.model.GameState
 
 import scala.collection.mutable
-import scala.concurrent.Future
-import scala.util.Try
 
-private class Simulator(red: Player, black: Player) {
+// TODO implement two rule sets: Fair and unfair.
+// In the fair mode, the black player has a chance to take a last action when a winning condition is met.
+class Simulation(red: Player, black: Player) {
   val state = new GameState
   var turn = 0
 
@@ -27,7 +27,7 @@ private class Simulator(red: Player, black: Player) {
 
 object Simulator {
 
-  val simulations = new mutable.MutableList[Simulator]
+  val simulations = new mutable.MutableList[Simulation]
   val running = new AtomicInteger(0)
   val over = new AtomicInteger(0)
   val won = (new AtomicInteger(0), new AtomicInteger(0))
@@ -40,8 +40,8 @@ object Simulator {
     */
   def simulate(red: Player, black: Player) = {
     // TODO use outcome
-    Future {
-      val sim = new Simulator(red, black)
+//    Future {
+      val sim = new Simulation(red, black)
       var result: Option[PlayerColor] = None
       sim.simulateFirstTurn()
       do {
@@ -54,7 +54,7 @@ object Simulator {
         case Red => won._1.incrementAndGet()
         case Black => won._2.incrementAndGet()
       }
-    }
+//    }
   }
 }
 
