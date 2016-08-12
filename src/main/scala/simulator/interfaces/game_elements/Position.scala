@@ -4,7 +4,9 @@ case class Position(x: Int, y: Int)
 
 // (0,0) is bottom right
 object Direction {
-  sealed trait Direction
+  sealed trait Direction {
+    def apply(pos: Position): Position
+  }
   case object Right extends Direction {
     def apply(pos: Position) = Position(pos.x + 1, pos.y)
   }

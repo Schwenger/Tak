@@ -17,6 +17,14 @@ sealed abstract class Token(val player: PlayerColor, val blocking: Boolean, val 
   def ::(other: Token): Token
 }
 
+object Tokenizer {
+  def apply(list: List[Token]): Option[Token] = list match {
+    case Nil => None
+    case List(x) => Some(x)
+    case _ => Some(Stack(list))
+  }
+}
+
 case class Wall(p: PlayerColor) extends Token(p, blocking = true, crushing = false, crushable = true) {
   override def ::(other: Token): Token = {
     assert(other.crushing)
