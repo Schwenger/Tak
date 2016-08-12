@@ -26,7 +26,7 @@ trait Player {
     * Called once before the actual game starts.
     * @param state initial state including all game parameters like board size.
     */
-  def init(state: State)
+  def init(state: GameState)
 
   /**
     * Called multiple times during one game.
@@ -35,7 +35,7 @@ trait Player {
     * @param state the current game state
     * @return the action that is supposed to be executed next for this player.
     */
-  def nextAction(turn: PlayerMapping[Action], state: State): Action
+  def nextAction(turn: PlayerMapping[Action], state: GameState): Action
 
   /**
     * Called one after init and before the first call to nextAction.
