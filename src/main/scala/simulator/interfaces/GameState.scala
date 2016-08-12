@@ -19,6 +19,8 @@ class GameState(val size: Int) {
 
   def apply(x: Int, y: Int): Option[Token] = board(x)(y).content
 
+  def dominatedBy(pos: Position, color: PlayerColor) = this(pos).exists(_.player == color)
+
   // Analytical Information (caller convenience)
   def freeFields: Int = ???
 
