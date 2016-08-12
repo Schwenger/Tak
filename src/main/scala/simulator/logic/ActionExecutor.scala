@@ -17,7 +17,7 @@ object ActionExecutor {
   // NOTE: The action executor always copies the whole board which is extremely inefficient.
   // TODO: when handing a state to the player, record checksum or similar to avoid spurious behavior
   def apply(action: Action, old_state: GameState, player: PlayerColor): GameState = {
-//    assert(GameLogic.isValid(old_state, action)(player))
+    assert(GameLogic.isValid(old_state, action)(player))
     val state = old_state.copy
     action match {
       case PlaceCapstone(pos) =>
@@ -32,12 +32,12 @@ object ActionExecutor {
     state
   }
 
-  @inline def executePlace(state: GameState, pos: Position, minion: Boolean, token: Token) = {
+  @inline private def executePlace(state: GameState, pos: Position, minion: Boolean, token: Token) = {
     state.removeToken(token.player, minion)
     state.setField(pos, token)
   }
 
-  def executeSlide(state: GameState, src: Position, stones: List[Int], dir: Direction) = {
+  private def executeSlide(state: GameState, src: Position, stones: List[Int], dir: Direction) = {
     assert(state(src).isDefined && state(src).get.isInstanceOf[Stack])
     val stack = state(src).get.asInstanceOf[Stack].content
     state.setField(src, Tokenizer(stack.drop(stones.head)))
@@ -45,7 +45,7 @@ object ActionExecutor {
 
   }
 
-  def _executeSlide(state: GameState, placeAt: Position, stones: List[Int], dir: Direction, inHand: List[Token]): Unit = stones match {
+  private def _executeSlide(state: GameState, placeAt: Position, stones: List[Int], dir: Direction, inHand: List[Token]): Unit = stones match {
     case x :: xs =>
       val newToken = _merge(Tokenizer(inHand.drop(x)).get, state(placeAt))
       state.setField(placeAt, newToken)
