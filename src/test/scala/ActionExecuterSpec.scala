@@ -5,7 +5,7 @@ import simulator.interfaces.{GameState, PlayerColor}
 import simulator.interfaces.game_elements._
 import simulator.logic.ActionExecutor
 
-class ActionExecuterSpec extends FlatSpec with Matchers {
+class ActionExecutorSpec extends FlatSpec with Matchers {
 
   def fixture =
     new {
@@ -29,11 +29,11 @@ class ActionExecuterSpec extends FlatSpec with Matchers {
       state.setField(Position(0,0), redStack1)
       state.setField(Position(3,0), blackWall)
       state.setField(Position(2,3), redWall)
-      val state2 = new GameState(4)
+      val state2 = new GameState(5)
       state2.setField(Position(0,0), redStack2)
     }
 
-  "ActionExecuter" should "spread the stack appropriately" in {
+  "ActionExecutor" should "spread the stack appropriately" in {
     val f = fixture
     val action = Slide(Position(0,0), List(4,2,1), Direction.Right)
     val state = ActionExecutor(action, f.state, Red)
@@ -81,7 +81,7 @@ class ActionExecuterSpec extends FlatSpec with Matchers {
     val f = fixture
     val target = Position(3,2)
     val action = PlaceCapstone(target)
-    val state = ActionExecutor(action, f.state, Red)
+    val state = ActionExecutor(action, f.state2, Red)
     state(target) shouldBe 'isDefined
     state(target).get should be (Capstone(Red))
   }

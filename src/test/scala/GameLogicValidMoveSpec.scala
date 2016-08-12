@@ -38,7 +38,7 @@ class GameLogicValidMoveSpec extends FlatSpec with Matchers {
     }
 
   // SLIDES
-  "ActionExecuter" should "not allow slides with too many stones" in {
+  "The Move Validator" should "not allow slides with too many stones" in {
     val f = fixture
     val action = Slide(f.stackPos, List(8,1), Direction.Right)
     GameLogic.isValid(f.state, action)(Red) should be (false)
@@ -95,7 +95,7 @@ class GameLogicValidMoveSpec extends FlatSpec with Matchers {
     val f = fixture
     val actions = Seq(PlaceMinion(Position(2,0)), PlaceCapstone(Position(1,1)), PlaceWall(Position(0,3)))
     for(action <- actions)
-      GameLogic.isValid(f.state, action)(Black) should be (true)
+      GameLogic.isValid(f.state2, action)(Black) should be (true)
   }
 
   it should "allow capstones to be crushing as the last step of a slide" in {
