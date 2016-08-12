@@ -14,9 +14,9 @@ object Direction {
     def apply(pos: Position) = Position(pos.x - 1, pos.y)
   }
   case object Up extends Direction {
-    def apply(pos: Position) = Position(pos.x + 1, pos.y)
+    def apply(pos: Position) = Position(pos.x, pos.y + 1)
   }
   case object Down extends Direction {
-    def apply(pos: Position) = Position(pos.x - 1, pos.y)
+    def apply(pos: Position) = Position(pos.x, pos.y - 1)
   }
 }
