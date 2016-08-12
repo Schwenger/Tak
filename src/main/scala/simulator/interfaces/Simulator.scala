@@ -5,7 +5,6 @@ import java.util.concurrent.atomic.AtomicInteger
 import simulator.interfaces.PlayerColor.{Black, PlayerColor, Red}
 import simulator.interfaces.game_elements.{Action, PlaceMinion}
 import simulator.logic.ActionExecutor
-import simulator.model.GameState
 
 import scala.collection.mutable
 
@@ -13,7 +12,7 @@ import scala.collection.mutable
 // In the fair mode, the black player has a chance to take a last action when a winning condition is met.
 class Simulation(red: Player, black: Player) {
 
-  var state: GameState = new GameState
+  var state: GameState = new GameState(4)
   var turn = 0
   private var turns: List[PlayerMapping[Action]] = Nil
 
