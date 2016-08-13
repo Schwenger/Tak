@@ -38,54 +38,6 @@ object GameLogic {
     }
   }
 
-
-//  def hasStreet_impl2(state: GameState): PlayerMapping[Boolean] = {
-//    case class Node(x: Int, y: Int){
-//      val neigh: List[Node] = Nil
-//      var seen = false
-//    }
-//
-//    def generateNodes(player: PlayerColor) =
-//      Seq.tabulate(size, size)((x, y) => if(state.dominatedBy(Position(x,y), player)) Some(Node(x,y)) else None)
-//
-//    // We can eradicate one of those directions.
-//    def addNeighbour(board: Seq[Seq[Option[Node]]], posA: Position, posB: Position) = {
-//      board(posA.x)(posA.y) map (n => n.neigh :+ board(posB.x)(posB.y).getOrElse(Nil))
-//      board(posB.x)(posB.y) map (n => n.neigh :+ board(posA.x)(posA.y).getOrElse(Nil))
-//    }
-//
-//    def DFS(open: List[Node], goal: Node => Boolean): Boolean = {
-//      if(open.isEmpty) {
-//        false
-//      } else if(open.head.seen) {
-//        DFS(open.tail, goal)
-//      } else if(goal(open.head)) {
-//        true
-//      } else {
-//        open.head.seen = true
-//        DFS(open.head.neigh ::: open.tail, goal)
-//      }
-//    }
-//
-//    val boardRed = generateNodes(Red)
-//    val boardBlack = generateNodes(Black)
-//
-//    for {x <- 0 until state.size
-//         y <- 0 until state.size
-//    }{
-//      val pos = Position(x, y)
-//      // we go up right since (0,0) is bottom left
-//      for(dir <- Seq(Direction.Up, Direction.Right)){
-//        val neigh = dir(pos)
-//        if(validPos(state.size, neigh)) {
-//          addNeighbour(boardRed, pos, neigh)
-//          addNeighbour(boardBlack, pos, neigh)
-//        }
-//      }
-//    }
-//  TODO: Run DFS
-//  }
-
   def hasStreet_impl1(state: GameState, dir: Direction, initial: Int => Position): PlayerMapping[Boolean] = {
     val (orth1, orth2) = dir.orth
 
