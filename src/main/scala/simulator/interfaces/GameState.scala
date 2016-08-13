@@ -26,8 +26,7 @@ class GameState private (val size: Int, initializer: (Int, Int) => Option[Token]
   def dominatedBy(pos: Position, color: PlayerColor) = this(pos) exists (_.player == color)
 
   // Analytical Information (caller convenience)
-  def freeFields: Int =
-  fold(0)((accu, field) => accu + (if(field.isEmpty) 1 else 0))
+  def freeFields: Int = (board map (_.count(_.isEmpty))).sum
 
   def domination: PlayerMapping[Int] =
     fold(PlayerMapping(0,0))((accu, field) =>
@@ -85,4 +84,19 @@ class GameState private (val size: Int, initializer: (Int, Int) => Option[Token]
 
   def copy: GameState = new GameState(size, (x,y) => board(x)(y))
 
+  override def toString: String = {
+    def abbrev(str: Any): String = str.toString.replace("Minion", "M").replace("Capstone","C").replace("Stack", "S").replace("Wall", "W").replace("Red", "R").replace("Black", "B")
+    def pad(size: Int, msg: Any): String = s"%${size}s" format abbrev(msg)
+    val fieldSize = 16 // must be even
+    def token2str(token: Option[Token]) = token.map(pad(fieldSize, _)).getOrElse(" " * fieldSize)
+    val horKey = "|   |" + (for(i <- 0 until size) yield (" " * (fieldSize/2)) + i + (" " * (fieldSize/2))).mkString("|") + "|   |"
+    val horBorder = "|---|" + "-" * ((fieldSize + 1) * size + (size - 1)) + "|---|"
+    val emptyLine = "|   |" + (for(i <- 0 until size) yield " " * (fieldSize + 1)).mkString("|") + "|   |"
+    val borderTemp = for {
+      y <- (0 until size).reverse
+      x <- 0 until size
+    } yield (if(x == 0) s"| $y " else " ") + "|" + token2str(board(x)(y)) + (if(x == size-1) if(y == 0) s" | $y |" else s" | $y |\n$emptyLine\n" else "")
+    val borderStr = borderTemp.mkString
+    Seq(horBorder, horKey, horBorder, emptyLine, borderStr, emptyLine, horBorder, horKey, horBorder).mkString("\n")
+  }
 }
