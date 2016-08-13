@@ -6,7 +6,9 @@ import simulator.interfaces.PlayerColor.PlayerColor
 // Everything but Capstones is crushable
 // Capstones are crushing
 // For Stacks the topmost token counts except in terms of crushing. A stack can never be crushing
-sealed abstract class Token(val player: PlayerColor, val blocking: Boolean, val crushing: Boolean, val crushable: Boolean) {
+// Only Minions count as a point
+// Everything but walls counts for streets
+sealed abstract class Token(val player: PlayerColor, val blocking: Boolean, val crushing: Boolean, val crushable: Boolean, val streetable: Boolean, val worthAPoint: Boolean) {
   /**
     * Stacks the other Token's content on top of this Token's content. Creates a Stack in the process.
     * The own content might be modified in case it is topped by a Wall and crushed by a Capstone.
@@ -25,7 +27,9 @@ object Tokenizer {
   }
 }
 
-case class Wall(p: PlayerColor) extends Token(p, blocking = true, crushing = false, crushable = true) {
+case class Wall(p: PlayerColor) extends Token(p, blocking = true, crushing = false, crushable = true,
+  streetable = false, worthAPoint = false) {
+
   override def ::(other: Token): Token = {
     assert(other.crushing)
     val crushed = Minion(player)
@@ -36,7 +40,9 @@ case class Wall(p: PlayerColor) extends Token(p, blocking = true, crushing = fal
   }
 }
 
-case class Minion(p: PlayerColor) extends Token(player = p, blocking = false, crushing = false, crushable = true) {
+case class Minion(p: PlayerColor) extends Token(player = p, blocking = false, crushing = false, crushable = true,
+  streetable = true, worthAPoint = true) {
+
   override def ::(other: Token): Token = {
     assert(!other.blocking)
     other match {
@@ -46,7 +52,10 @@ case class Minion(p: PlayerColor) extends Token(player = p, blocking = false, cr
   }
 }
 
-case class Stack(content: List[Token]) extends Token(player = content.head.player, blocking = content.head.blocking, crushing = false, crushable = content.head.crushable) {
+case class Stack(content: List[Token]) extends Token(player = content.head.player, blocking = content.head.blocking,
+  crushing = false, crushable = content.head.crushable, streetable = content.head.streetable,
+  worthAPoint = content.head.worthAPoint) {
+
   assert(!content.tail.exists(t => t.isInstanceOf[Capstone] || t.isInstanceOf[Wall]))
 
   override def ::(other: Token): Token = {
@@ -62,7 +71,9 @@ case class Stack(content: List[Token]) extends Token(player = content.head.playe
   }
 }
 
-case class Capstone(p: PlayerColor) extends Token(player = p, blocking = true, crushing = true, crushable = false) {
+case class Capstone(p: PlayerColor) extends Token(player = p, blocking = true, crushing = true, crushable = false,
+  streetable = true, worthAPoint = false) {
+
   override def ::(other: Token): Token = {
     throw new IllegalArgumentException // nothing can go on top of a Capstone
   }
