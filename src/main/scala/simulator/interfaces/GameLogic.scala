@@ -4,7 +4,6 @@ import simulator.interfaces.PlayerColor.PlayerColor
 import simulator.interfaces.game_elements._
 import simulator.interfaces.game_elements.ActionKind.ActionKind
 import simulator.interfaces.game_elements.Direction.Direction
-
 object GameLogic {
 
   /**
@@ -12,7 +11,95 @@ object GameLogic {
     * @param state for which this method decides whether it is terminal.
     * @return The winning player, if any.
     */
-  def gameOver(state: GameState) : Option[PlayerColor] = None
+  def gameOver(state: GameState) : Option[PlayerColor] = {
+    val horizontal = hasStreet_impl1(state, Direction.Right, i => Position(0, i))
+    val vertical = hasStreet_impl1(state, Direction.Up, i => Position(i, 0))
+    (horizontal.red || vertical.red, horizontal.black || vertical.black) match {
+      case (true, false) => Some(PlayerColor.Red)
+      case (false, true) => Some(PlayerColor.Black)
+      case (true, true) => throw new IllegalStateException("This case must not occur.")
+      case (false, false) => None
+    }
+  }
+
+//  def hasStreet_impl2(state: GameState): PlayerMapping[Boolean] = {
+//    case class Node(x: Int, y: Int){
+//      val neigh: List[Node] = Nil
+//      var seen = false
+//    }
+//
+//    def generateNodes(player: PlayerColor) =
+//      Seq.tabulate(size, size)((x, y) => if(state.dominatedBy(Position(x,y), player)) Some(Node(x,y)) else None)
+//
+//    // We can eradicate one of those directions.
+//    def addNeighbour(board: Seq[Seq[Option[Node]]], posA: Position, posB: Position) = {
+//      board(posA.x)(posA.y) map (n => n.neigh :+ board(posB.x)(posB.y).getOrElse(Nil))
+//      board(posB.x)(posB.y) map (n => n.neigh :+ board(posA.x)(posA.y).getOrElse(Nil))
+//    }
+//
+//    def DFS(open: List[Node], goal: Node => Boolean): Boolean = {
+//      if(open.isEmpty) {
+//        false
+//      } else if(open.head.seen) {
+//        DFS(open.tail, goal)
+//      } else if(goal(open.head)) {
+//        true
+//      } else {
+//        open.head.seen = true
+//        DFS(open.head.neigh ::: open.tail, goal)
+//      }
+//    }
+//
+//    val boardRed = generateNodes(PlayerColor.Red)
+//    val boardBlack = generateNodes(PlayerColor.Black)
+//
+//    for {x <- 0 until state.size
+//         y <- 0 until state.size
+//    }{
+//      val pos = Position(x, y)
+//      // we go up right since (0,0) is bottom left
+//      for(dir <- Seq(Direction.Up, Direction.Right)){
+//        val neigh = dir(pos)
+//        if(validPos(state.size, neigh)) {
+//          addNeighbour(boardRed, pos, neigh)
+//          addNeighbour(boardBlack, pos, neigh)
+//        }
+//      }
+//    }
+//  }
+
+  def hasStreet_impl1(state: GameState, dir: Direction, initial: Int => Position): PlayerMapping[Boolean] = {
+    val (orth1, orth2) = dir.orth
+
+    def nextStep(open: Seq[Position]): Seq[Position] =
+      open collect { case pos if state.dominatedBy(dir(pos), PlayerColor.Red) => dir(pos) }
+
+    def expand(open: Seq[Position], color: PlayerColor): Seq[Position] = {
+      def move(pos: Position, dir: Direction): Seq[Position] = {
+        if (validPos(state.size, pos) && state.dominatedBy(pos, color))
+          move(dir(pos), dir) :+ pos
+        else
+          Nil
+      }
+      open.foldLeft(Nil: Seq[Position]) { (accu: Seq[Position], pos: Position) =>
+        val move1 = move(pos, orth1)
+        val move2 = move(pos, orth2)
+        move1 ++ move2 ++ accu
+      }.distinct
+    }
+    def checkBoard(color: PlayerColor) = {
+      var open: Seq[Position] = for {i <- 0 until state.size
+           if state.dominatedBy(initial(i), PlayerColor.Red)} yield initial(i)
+      for(i <- 1 until state.size){
+        open = expand(nextStep(open), color)
+      }
+      open
+    }
+    val red = checkBoard(PlayerColor.Red)
+    val black = checkBoard(PlayerColor.Black)
+    PlayerMapping(red.isEmpty, black.isEmpty)
+  }
+
 
   /**
     * Collects the Actions a given Player can apply in the given State. Returns an empty list if there is none.
