@@ -2,7 +2,6 @@ package simulator.interfaces
 
 import simulator.interfaces.PlayerColor.{Black, PlayerColor, Red}
 import simulator.interfaces.game_elements.{Position, Stack, Token}
-import simulator.model.Field
 
 import scala.collection.mutable
 
