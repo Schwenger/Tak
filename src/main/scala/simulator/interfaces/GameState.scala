@@ -7,12 +7,14 @@ import scala.collection.mutable
 
 class GameState private (val size: Int, initializer: (Int, Int) => Option[Token]) {
 
+  assert(size >= 2)
+
   def this(size: Int) = {
     this(size, (x,y) => None)
   }
 
   // Static Data
-  val numTokens = Map(4 -> (15, 0), 5 -> (20, 1), 6 -> (30, 1), 7 -> (40, 2), 8 -> (50, 2))
+  val numTokens = Map(2 -> (3, 0), 3 -> (8, 0), 4 -> (15, 0), 5 -> (20, 1), 6 -> (30, 1), 7 -> (40, 2), 8 -> (50, 2))
 
   // Dynamic Data
   private val board = mutable.Seq.tabulate(size, size)(initializer)
