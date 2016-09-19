@@ -4,7 +4,12 @@ import simulator.interfaces.PlayerColor.{Black, PlayerColor, Red}
 import simulator.interfaces.game_elements.{Action, Position, Result}
 
 object PlayerColor {
-  sealed trait PlayerColor
+  sealed trait PlayerColor {
+    def unary_!() = this match {
+      case Red => Black
+      case Black => Red
+    }
+  }
   case object Red extends PlayerColor
   case object Black extends PlayerColor
 }
@@ -38,7 +43,7 @@ trait Player {
   def nextAction(turn: PlayerMapping[Action], state: GameState): Action
 
   /**
-    * Called one after init and before the first call to nextAction.
+    * Called once after init and before the first call to nextAction.
     * Computes the position where the opponents first Minion should be placed. This corresponds to the first action.
     * @param occupied reports the only already occupied game position if the player is black
     * @return the position for the opponents first Minion

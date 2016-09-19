@@ -11,7 +11,9 @@ object ActionKind {
   case object Place extends ActionKind
 }
 
-sealed trait Action
+sealed trait Action {
+  val origin: Position
+}
 
 case class Slide(origin: Position, stones: List[Int], dir: Direction) extends Action
 case class PlaceMinion(origin: Position, pseudo: Boolean = false) extends Action
