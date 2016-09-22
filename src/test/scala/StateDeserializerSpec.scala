@@ -1,5 +1,5 @@
 import org.scalatest.{FlatSpec, Matchers}
-import simulator.interfaces.StateDeserializer
+import parsing.state.StateDeserializer
 import simulator.interfaces.PlayerColor.{Black, Red}
 import simulator.interfaces.game_elements.{Capstone, Minion, Stack, Wall}
 
