@@ -83,7 +83,7 @@ object GameLogic {
     * @param color of the player for which Actions are collected.
     * @return list of applicable actions
     */
-  def availableActions(state: GameState)(implicit color: PlayerColor): List[Action] = Nil
+  def availableActions(state: GameState)(implicit color: PlayerColor): List[Action] = ???
 
   /**
     * Collects the Actions of a given Kind a given Player can apply in the given State. Returns an empty list if there is none.
@@ -92,7 +92,7 @@ object GameLogic {
     * @param color of the player for which Actions are collected.
     * @return list of applicable actions
     */
-  def availableActions(state: GameState, actionKind: ActionKind)(implicit color: PlayerColor): List[Action] = Nil
+  def availableActions(state: GameState, actionKind: ActionKind)(implicit color: PlayerColor): List[Action] = ???
 
   /**
     * Decides whether a given Action is applicable in a given State for a given Player.
