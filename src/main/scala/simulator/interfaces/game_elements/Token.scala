@@ -36,6 +36,7 @@ case class Wall(p: PlayerColor) extends Token(p, blocking = true, crushing = fal
     other match {
       case Stack(content) => Stack(content :+ crushed)
       case Capstone(_) => Stack(List(other, crushed))
+      case _ => throw new UnsupportedOperationException("This is not allowed at all.")
     }
   }
 }
