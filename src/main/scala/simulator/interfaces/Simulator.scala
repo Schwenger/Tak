@@ -4,7 +4,6 @@ import java.util.concurrent.atomic.AtomicInteger
 
 import simulator.interfaces.PlayerColor.{Black, PlayerColor, Red}
 import simulator.interfaces.game_elements.{Action, PlaceMinion}
-import simulator.logic.ActionExecutor
 
 import scala.collection.mutable
 

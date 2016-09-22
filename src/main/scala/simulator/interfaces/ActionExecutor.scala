@@ -1,8 +1,7 @@
-package simulator.logic
+package simulator.interfaces
 
 import simulator.interfaces.PlayerColor.PlayerColor
 import simulator.interfaces.game_elements.Direction.Direction
-import simulator.interfaces.{GameLogic, GameState}
 import simulator.interfaces.game_elements._
 
 
