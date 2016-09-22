@@ -1,0 +1,20 @@
+Action ::= Surrender | Slide | Place | Move
+
+Surrender ::= "surrender" | "forfeit" | "give up"
+
+Place ::= PlaceCmd ["a"] TokenName ["at"] Position
+PlaceCmd ::= "place" | "set"
+
+Move ::= MoveCmd TokenPos ["to"] (Position | Direction)
+MoveCmd ::= "move" | "walk"
+
+Slide ::= SlideCmd TokenPos Direction ("drop" | "take") DropList
+DropList ::= DropEntry*
+DropEntry ::= Number [["at"] Position]
+
+# Util
+TokenPos ::= ["my"] [TokenName ("at" | "from")] Position
+Direction ::= "north" | "south" | "east" | "west"
+Position ::= ["position"] ["("] Number "," Number
+TokenName ::= "capstone" | "minion" | "wall"
+Number ::= 0-9
