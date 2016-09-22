@@ -40,7 +40,7 @@ override def nextAction(turn: PlayerMapping[Action], state: GameState): Action =
 
   def readAction(state: GameState): Action = ActionParser(StdIn.readLine()) match {
     case Success(a) =>
-      if(!GameLogic.isValid(state, a)) {
+      if(!GameLogic.isValid(state, a)(kind)) {
         println("This was an invalid move. Either you are trying to cheat and got caught or you are not smart enough for Tak.")
         println("Anyway, try again.")
         readAction(state)
