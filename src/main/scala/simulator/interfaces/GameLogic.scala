@@ -12,6 +12,8 @@ object GameLogic {
     * @return The winning player, if any.
     */
   def gameOver(state: GameState) : Option[PlayerColor] = {
+    if(state.surrendered.isDefined)
+      return state.surrendered
     val horizontal = hasStreet_impl1(state, Direction.Right, i => Position(0, i))
     val vertical = hasStreet_impl1(state, Direction.Up, i => Position(i, 0))
     (horizontal.red || vertical.red, horizontal.black || vertical.black) match {
@@ -111,6 +113,7 @@ object GameLogic {
       case PlaceWall(dest) => state(dest).isEmpty && state.minionsLeft(color) > 0
       case Slide(src, stones, dir) => validSlide(state, src, stones, dir)
       case Move(src, dir) => validMove(state, src, dir)
+      case Surrender(_) => true
     }
   }
 

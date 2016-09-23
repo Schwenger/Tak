@@ -13,6 +13,14 @@ class GameState private (val size: Int, initializer: (Int, Int) => Option[Token]
     this(size, (x,y) => None)
   }
 
+  private var giveUp: Option[PlayerColor] = None
+
+  def surrendered: Option[PlayerColor] = giveUp
+
+  def surrender(color: PlayerColor) =
+    if(giveUp.isEmpty)
+      giveUp = Some(color)
+
   // Static Data
   val numTokens = Map(2 -> (3, 0), 3 -> (8, 0), 4 -> (15, 0), 5 -> (20, 1), 6 -> (30, 1), 7 -> (40, 2), 8 -> (50, 2))
 

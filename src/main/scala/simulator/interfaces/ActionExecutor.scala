@@ -30,6 +30,8 @@ object ActionExecutor {
         executeSlide(state, src, stones, dir)
       case Move(src, dir) =>
         executeMove(state, src, dir)
+      case Surrender(_) =>
+        state.surrender(player)
     }
     state
   }
