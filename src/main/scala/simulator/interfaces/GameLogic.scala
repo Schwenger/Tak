@@ -101,27 +101,28 @@ object GameLogic {
     * @param color of the player.
     * @return
     */
-  def isValid(state: GameState, action: Action)(implicit color: PlayerColor): Boolean = action match {
-    case PlaceCapstone(dest) => validPos(state.size ,dest) && state(dest).isEmpty && state.capstonesLeft(color) > 0
-    case PlaceMinion(dest, _) => validPos(state.size, dest) && state(dest).isEmpty && state.minionsLeft(color) > 0
-    case PlaceWall(dest) => validPos(state.size, dest) && state(dest).isEmpty && state.minionsLeft(color) > 0
-    case Slide(src, stones, dir) => validSlide(state, src, stones, dir)
-    case Move(src, dir) => validMove(state, src, dir)
+  def isValid(state: GameState, action: Action)(implicit color: PlayerColor): Boolean = {
+    if(!validPos(state.size, action.origin))
+      return false
+
+    action match {
+      case PlaceCapstone(dest) => state(dest).isEmpty && state.capstonesLeft(color) > 0
+      case PlaceMinion(dest, _) => state(dest).isEmpty && state.minionsLeft(color) > 0
+      case PlaceWall(dest) => state(dest).isEmpty && state.minionsLeft(color) > 0
+      case Slide(src, stones, dir) => validSlide(state, src, stones, dir)
+      case Move(src, dir) => validMove(state, src, dir)
+    }
   }
 
   private def validMove(state: GameState, src: Position, dir: Direction)(implicit player: PlayerColor): Boolean = {
-    if(!validPos(state.size, src))
-      return false
     if(!state.dominatedBy(src, player))
       return false
     val dest = dir(src)
-    state(dest).isEmpty || _stackable(state(src).get, state(dest).get)
+    validPos(state.size, dir(src)) && (state(dest).isEmpty || _stackable(state(src).get, state(dest).get))
   }
 
   // TODO iterative -> recursive
   private def validSlide(state: GameState, src: Position, stones: List[Int], dir: Direction)(implicit player: PlayerColor): Boolean = {
-    if(!validPos(state.size, src))
-      return false
     if(!state.dominatedBy(src, player))
       return false
     if(stones.head > state.size)
