@@ -13,7 +13,7 @@ class ActionLexerSpec extends FlatSpec with Matchers {
     tokens(1) shouldBe PLACECMD
     tokens(2) shouldBe AT
     tokens(3) shouldBe FROM
-    tokens(4) shouldBe NUMBER(3)
+    tokens(4) shouldBe NUMBER("3")
     tokens(5) shouldBe POSITION
     tokens(6) shouldBe RPAR
   }
@@ -24,7 +24,7 @@ class ActionLexerSpec extends FlatSpec with Matchers {
     lexRes.isRight should be (true)
     val tokens = lexRes.right.get
     tokens.length should be (1)
-    tokens.head shouldBe NUMBER(3)
+    tokens.head shouldBe NUMBER("3")
   }
 
   it should "lex surrenders" in {
@@ -82,7 +82,7 @@ class ActionLexerSpec extends FlatSpec with Matchers {
     val tokens = lexRes.right.get
     tokens.length should be (3)
     tokens.head shouldBe AT
-    tokens(1) shouldBe NUMBER(3)
+    tokens(1) shouldBe NUMBER("3")
     tokens(2) shouldBe TO
   }
 }
