@@ -66,7 +66,7 @@ class ActionParserSpec extends FlatSpec with Matchers {
     val f = fixture
     val p = f.parse("move my (3,1) to (3,2)")
     def test(ast: AST): Unit = {
-      ast should be (ASTAction(ASTMoveDir(ASTPosition(ASTNumber(3), ASTNumber(1)), ASTDirection(Direction.Up))))
+      ast should be (ASTAction(ASTMovePos(ASTPosition(ASTNumber(3), ASTNumber(1)), ASTPosition(ASTNumber(3), ASTNumber(2)))))
     }
     f.check(p, test)
   }
