@@ -46,12 +46,12 @@ object ActionExecutor {
     state.clearField(src)
   }
 
-  // todo use match instead of instance of
-  private def executeSlide(state: GameState, src: Position, stones: List[Int], dir: Direction) = {
-    assert(state(src).isDefined && state(src).get.isInstanceOf[Stack])
-    val stack = state(src).get.asInstanceOf[Stack].content
-    state.setField(src, Tokenizer(stack.drop(stones.head)))
-    _executeSlide(state, dir(src), stones.tail, dir, stack.take(stones.head))
+  private def executeSlide(state: GameState, src: Position, stones: List[Int], dir: Direction) = state(src) match {
+    case Some(Stack(content)) =>
+      val stack = content
+      state.setField(src, Tokenizer(stack.drop(stones.head)))
+      _executeSlide(state, dir(src), stones.tail, dir, stack.take(stones.head))
+    case _ => assert(false)
   }
 
   private def _executeSlide(state: GameState, placeAt: Position, stones: List[Int], dir: Direction, inHand: List[Token]): Unit = stones match {
