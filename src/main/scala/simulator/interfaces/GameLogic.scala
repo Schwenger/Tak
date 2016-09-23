@@ -106,10 +106,22 @@ object GameLogic {
     case PlaceMinion(dest, _) => validPos(state.size, dest) && state(dest).isEmpty && state.minionsLeft(color) > 0
     case PlaceWall(dest) => validPos(state.size, dest) && state(dest).isEmpty && state.minionsLeft(color) > 0
     case Slide(src, stones, dir) => validSlide(state, src, stones, dir)
+    case Move(src, dir) => validMove(state, src, dir)
+  }
+
+  private def validMove(state: GameState, src: Position, dir: Direction)(implicit player: PlayerColor): Boolean = {
+    if(!validPos(state.size, src))
+      return false
+    if(!state.dominatedBy(src, player))
+      return false
+    val dest = dir(src)
+    state(dest).isEmpty || _stackable(state(src).get, state(dest).get)
   }
 
   // TODO iterative -> recursive
   private def validSlide(state: GameState, src: Position, stones: List[Int], dir: Direction)(implicit player: PlayerColor): Boolean = {
+    if(!validPos(state.size, src))
+      return false
     if(!state.dominatedBy(src, player))
       return false
     if(stones.head > state.size)
@@ -117,8 +129,6 @@ object GameLogic {
     if(!(stones == stones.sortBy(-_).distinct)) // checks for strictly monotonic decreasing
       return false
     if(stones.min <= 0)
-      return false
-    if(!validPos(state.size, src))
       return false
 
     var inHand = state(src).get match {

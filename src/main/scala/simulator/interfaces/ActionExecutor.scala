@@ -27,6 +27,8 @@ object ActionExecutor {
         executePlace(state, pos, minion = true, Wall(player))
       case Slide(src, stones, dir) =>
         executeSlide(state, src, stones, dir)
+      case Move(src, dir) =>
+        executeMove(state, src, dir)
     }
     state
   }
@@ -36,12 +38,18 @@ object ActionExecutor {
     state.setField(pos, token)
   }
 
+  @inline private def executeMove(state: GameState, src: Position, dir: Direction) = {
+    assert(state(src).isDefined)
+    state.clearField(src)
+    state.setField(dir(src), state(src).get)
+  }
+
+  // todo use match instead of instance of
   private def executeSlide(state: GameState, src: Position, stones: List[Int], dir: Direction) = {
     assert(state(src).isDefined && state(src).get.isInstanceOf[Stack])
     val stack = state(src).get.asInstanceOf[Stack].content
     state.setField(src, Tokenizer(stack.drop(stones.head)))
     _executeSlide(state, dir(src), stones.tail, dir, stack.take(stones.head))
-
   }
 
   private def _executeSlide(state: GameState, placeAt: Position, stones: List[Int], dir: Direction, inHand: List[Token]): Unit = stones match {
