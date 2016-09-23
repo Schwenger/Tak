@@ -20,8 +20,8 @@ object Lexer extends RegexParsers {
   def east      = "east|right".r ^^ (_ => EAST)
   def south     = "south|down".r ^^ (_ => SOUTH)
   def placecmd  = "place|set".r  ^^ (_ => PLACECMD)
-  def west      = "west|left"    ^^ (_ => WEST)
-  def north     = "north|up"     ^^ (_ => NORTH)
+  def west      = "west|left".r  ^^ (_ => WEST)
+  def north     = "north|up".r   ^^ (_ => NORTH)
   def position  = "position"     ^^ (_ => POSITION)
   def capstone  = "capstone"     ^^ (_ => CAPSTONE)
   def minion    = "minion"       ^^ (_ => MINION)
@@ -43,7 +43,7 @@ object Lexer extends RegexParsers {
   def tokens: Parser[List[ActionParseToken]] = {
     phrase(rep1(
       number | surrender | placecmd | movecmd | position | capstone | minion | north | south | wall | take | drop |
-      from | west | east | at | to | lpar | rpar | comma | stack | slidecmd | a | my
+      from | west | east | at | to | lpar | rpar | comma | stack | slidecmd | my | a
     ))
   }
 
