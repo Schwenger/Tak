@@ -29,18 +29,18 @@ class UserPlayer(color: PlayerColor) extends Player {
     * @param state the current game state
     * @return the action that is supposed to be executed next for this player.
     */
-override def nextAction(turn: PlayerMapping[Action], state: GameState): Action = {
-  println("The opposing player used " + turn.black)
-  println()
-  println(state)
-  println()
-  println("What do you want to do?")
-  readAction(state)
-}
+  override def nextAction(turn: PlayerMapping[Action], state: GameState): Action = {
+    println("The opposing player used " + turn.black)
+    println()
+    println(state)
+    println()
+    println("What do you want to do?")
+    readAction(state)
+  }
 
   def readAction(state: GameState): Action = ActionParser(StdIn.readLine()) match {
     case Success(a) =>
-      if(!GameLogic.isValid(state, a)(kind)) {
+      if (!GameLogic.isValid(state, a)(kind)) {
         println("This was an invalid move. Either you are trying to cheat and got caught or you are not smart enough for Tak.")
         println("Anyway, try again.")
         readAction(state)
@@ -66,5 +66,24 @@ override def nextAction(turn: PlayerMapping[Action], state: GameState): Action =
     *
     * @param result information about the winner and the final state.
     */
-  override def accept(result: Result): Unit = ???
+  override def accept(result: Result): Unit = {
+    println("Game Over!")
+    println("The winner is:")
+    println("*drum roll*")
+    println()
+    println(result.winner)
+    val state = result.state
+    state.surrendered match {
+      case Some(c) => println("This is because the opponent cowardly surrendered.")
+      case None => println("You won fair and square in a game to the bitter end.")
+    }
+    println("The final state was:")
+    println()
+    println(state.toString)
+    println()
+    println("I hope you enjoyed the game!")
+    println("Thank you, come again! ~ Apu Nahasapeemapetilon")
+    println()
+  }
+
 }
