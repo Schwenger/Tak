@@ -40,8 +40,9 @@ object ActionExecutor {
 
   @inline private def executeMove(state: GameState, src: Position, dir: Direction) = {
     assert(state(src).isDefined)
+    val res = _merge(state(src).get, state(dir(src)))
+    state.setField(dir(src), res)
     state.clearField(src)
-    state.setField(dir(src), state(src).get)
   }
 
   // todo use match instead of instance of

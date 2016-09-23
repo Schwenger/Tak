@@ -10,7 +10,7 @@ class ActionExecutorSpec extends FlatSpec with Matchers {
     new {
       /*
         y _ _ _ _
-        3|_|_|M|_|
+        3|_|_|W|_|
         2|_|_|_|_|
         1|_|_|_|_|
         0|S|_|_|W|
@@ -53,7 +53,26 @@ class ActionExecutorSpec extends FlatSpec with Matchers {
     state(3,0).get.asInstanceOf[Stack].content should have length 2
     state(3,0).get.asInstanceOf[Stack].content.head should be (f.redCap)
     state(3,0).get.asInstanceOf[Stack].content(1) should be (Minion(PlayerColor.Black))
+  }
 
+  it should "execute moves properly" in {
+    val f = fixture
+    val action = Move(Position(2,3), Direction.Right)
+    val state = ActionExecutor(action, f.state, Red)
+
+    state(2, 3) shouldBe 'isEmpty
+    state(3, 3).get should be (f.redWall)
+  }
+
+  it should "stack tokens properly when moving" in {
+    val f = fixture
+    val action = Move(Position(3,1), Direction.Down)
+    val old = f.state.copy
+    old.setField(Position(3,1), f.redCap)
+    val state = ActionExecutor(action, old, Red)
+
+    state(3, 1) shouldBe 'isEmpty
+    state(3, 0).get should be (Stack(List(f.redCap, f.blackMin)))
 
   }
 
