@@ -13,7 +13,7 @@ class GameLogicValidMoveSpec extends FlatSpec with Matchers {
         3|_|_|M|S|
         2|_|_|_|W|
         1|W|_|_|_|
-        0|S|_|_|W|
+        0|S|_|_|_|
           0 1 2 3 x
        */
       val board_size = 4
@@ -81,7 +81,36 @@ class GameLogicValidMoveSpec extends FlatSpec with Matchers {
   }
 
   it should "not allow slides from fields that are not dominated by the active player " in {
-    //TODO
+    val f = fixture
+    val action = Slide(f.stackPos, List(3), Direction.Right)
+    GameLogic.isValid(f.state, action)(Black) should be (false)
+  }
+
+  // MOVE
+
+  it should "not allow moves from an empty field" in {
+    val f = fixture
+    val action = Move(Position(0,3), Direction.Right)
+    GameLogic.isValid(f.state, action)(Red) should be (false)
+    GameLogic.isValid(f.state, action)(Black) should be (false)
+  }
+
+  it should "allow valid moves" in {
+    val f = fixture
+    val action = Move(Position(3,2), Direction.Left)
+    GameLogic.isValid(f.state, action)(Red) should be (true)
+  }
+
+  it should "detect invalid destinations" in {
+    val f = fixture
+    val action = Move(Position(3,2), Direction.Right)
+    GameLogic.isValid(f.state, action)(Red) should be (false)
+  }
+
+  it should "detect if the field is not dominated by the respective player" in {
+    val f = fixture
+    val action = Move(Position(3,2), Direction.Left)
+    GameLogic.isValid(f.state, action)(Black) should be (false)
   }
 
   // VALID CASES
