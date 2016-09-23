@@ -1,7 +1,5 @@
 package parsing.action
 
-import parsing.{AST, Action, Direction, GameToken, Move, MoveDir, MoveList, MovePos, Number, Place, Position, Slide, TokenKind}
-
 import scala.util.parsing.combinator.Parsers
 import scala.util.parsing.input.{NoPosition, Reader, Position => InputPos}
 import simulator.interfaces.game_elements.{Direction => GameDirection}
@@ -10,68 +8,74 @@ import scala.util.Try
 
 object Parser extends Parsers {
 
-  override type Elem = Token
+  override type Elem = ActionParseToken
 
-  def apply(tokens: Seq[Token]): Try[AST] = {
+  def apply(tokens: Seq[ActionParseToken]): Try[AST] = {
     val reader = new TokenReader(tokens)
     action(reader) match {
-      case NoSuccess(msg, next) => scala.util.Failure(ParseException(msg))
+      case NoSuccess(msg, next) => scala.util.Failure(ActionParserError(msg))
       case Success(result, next) => scala.util.Success(result)
     }
   }
 
-  private def action: Parser[Action] =
-    (move | slide | place | SURRENDER) ^^ { case (a: AST) => Action(a) }
+  private def action: Parser[ASTAction] =
+    (move | slide | place | surrender) ^^ { case (a: AST) => ASTAction(a) }
 
-  private def number: Parser[Number] = accept("number", { case value @ NUMBER(v) => Number(v.toInt) })
 
-  private def token: Parser[TokenKind] =
+  private def number: Parser[ASTNumber] = accept("number", { case value @ NUMBER(v) => ASTNumber(v.toInt) })
+
+  private def token: Parser[ASTTokenKind] =
     accept("number", {
-      case id @ CAPSTONE => TokenKind(GameToken.Capstone)
-      case id @ MINION => TokenKind(GameToken.Minion)
-      case id @ WALL => TokenKind(GameToken.Wall)
-      case id @ STACK => TokenKind(GameToken.Stack)
+      case id @ CAPSTONE => ASTTokenKind(GameToken.Capstone)
+      case id @ MINION => ASTTokenKind(GameToken.Minion)
+      case id @ WALL => ASTTokenKind(GameToken.Wall)
+      case id @ STACK => ASTTokenKind(GameToken.Stack)
     })
 
-  private def position: Parser[Position] = {
+  private def position: Parser[ASTPosition] = {
     (
-      opt(POSITION) ~ LPAR ~> number ~ (COMMA ~> number) <~ RPAR
+      opt(MY) ~ opt(POSITION) ~ LPAR ~> number ~ (COMMA ~> number) <~ RPAR
         | opt(POSITION) ~> number ~ (COMMA ~> number)
-      ) ^^ { case x ~ y => Position(x, y) }
+      ) ^^ { case x ~ y => ASTPosition(x, y) }
   }
 
-  private def movelist: Parser[MoveList] =
-    rep1sep(number, COMMA) ^^ MoveList
+  private def surrender: Parser[ASTSurrender.type] =
+    SURRENDER ^^ (_ => ASTSurrender)
 
-  private def direction: Parser[Direction] =
+
+  private def movelist: Parser[ASTMoveList] =
+    rep1sep(number, COMMA) ^^ ASTMoveList
+
+  private def direction: Parser[ASTDirection] =
     (NORTH | SOUTH | EAST | WEST) ^^ {
-      case NORTH => Direction(GameDirection.Up)
-      case SOUTH => Direction(GameDirection.Down)
-      case EAST => Direction(GameDirection.Right)
-      case WEST => Direction(GameDirection.Left)
+      case NORTH => ASTDirection(GameDirection.Up)
+      case SOUTH => ASTDirection(GameDirection.Down)
+      case EAST => ASTDirection(GameDirection.Right)
+      case WEST => ASTDirection(GameDirection.Left)
+      case _ => throw new IllegalArgumentException("How can this happen?!")
     }
 
-  private def slide: Parser[Slide] =
+  private def slide: Parser[ASTSlide] =
     (SLIDECMD ~> position ~ direction ~ ((DROP | TAKE) ~> movelist)) ^^ {
-      case pos ~ dir ~ moves => Slide(pos, dir, moves)
+      case pos ~ dir ~ moves => ASTSlide(pos, dir, moves)
     }
 
-  private def move: Parser[Move] =
+  private def move: Parser[ASTMove] =
     (MOVECMD ~> position ~ (opt(TO) ~> (position | direction))) ^^ {
-      case src ~ (dest: Position) => MovePos(src, dest)
-      case src ~ (dir: Direction) => MoveDir(src, dir)
+      case src ~ (dest: ASTPosition) => ASTMovePos(src, dest)
+      case src ~ (dir: ASTDirection) => ASTMoveDir(src, dir)
     }
 
-  private def place: Parser[Place] =
+  private def place: Parser[ASTPlace] =
     (PLACECMD ~ opt(A) ~> token ~ (opt(AT) ~> position)) ^^ {
-      case kind ~ pos => Place(pos, kind)
+      case kind ~ pos => ASTPlace(pos, kind)
     }
 
-  class TokenReader(tokens: Seq[Token]) extends Reader[Token] {
-    override def first: Token = tokens.head
+  class TokenReader(tokens: Seq[ActionParseToken]) extends Reader[ActionParseToken] {
+    override def first: ActionParseToken = tokens.head
     override def atEnd: Boolean = tokens.isEmpty
     override def pos: InputPos = NoPosition
-    override def rest: Reader[Token] = new TokenReader(tokens.tail)
+    override def rest: Reader[ActionParseToken] = new TokenReader(tokens.tail)
   }
 
 }

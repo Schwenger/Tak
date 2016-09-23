@@ -1,5 +1,6 @@
 package parsing.action
 
+import scala.util.Try
 import scala.util.matching.Regex
 import scala.util.parsing.combinator.RegexParsers
 
@@ -8,9 +9,9 @@ object Lexer extends RegexParsers {
   override def skipWhitespace: Boolean = true
   override val whiteSpace: Regex = "[ \t\r\f]+".r
 
-  def apply(input: String): Either[ActionInputError, List[Token]] = parse(tokens, input.toLowerCase) match {
-    case NoSuccess(msg, next) => Left(ActionLexerError(msg))
-    case Success(result, next) => Right(result)
+  def apply(input: String): Try[List[ActionParseToken]] = parse(tokens, input.toLowerCase) match {
+    case NoSuccess(msg, next) => scala.util.Failure(ActionLexerError(msg))
+    case Success(result, next) => scala.util.Success(result)
   }
 
   def number: Parser[NUMBER] = "[0-9]".r ^^ { s => NUMBER(s) }
@@ -39,7 +40,7 @@ object Lexer extends RegexParsers {
   def rpar      = ")"            ^^ (_ => RPAR)
   def comma     = ","            ^^ (_ => COMMA)
 
-  def tokens: Parser[List[Token]] = {
+  def tokens: Parser[List[ActionParseToken]] = {
     phrase(rep1(
       number | surrender | placecmd | movecmd | position | capstone | minion | north | south | wall | take | drop |
       from | west | east | at | to | lpar | rpar | comma | stack | slidecmd | a | my
