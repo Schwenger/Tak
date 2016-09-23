@@ -15,6 +15,7 @@ object ActionExecutor {
     */
   // NOTE: The action executor always copies the whole board which is extremely inefficient.
   // TODO: when handing a state to the player, record checksum or similar to avoid spurious behavior
+  // When changing this: adapt tests
   def apply(action: Action, old_state: GameState, player: PlayerColor): GameState = {
     assert(GameLogic.isValid(old_state, action)(player))
     val state = old_state.copy

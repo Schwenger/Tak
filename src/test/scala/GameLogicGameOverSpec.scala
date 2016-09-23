@@ -61,8 +61,8 @@ class GameLogicGameOverSpec extends FlatSpec with Matchers {
       _state2.setField(Position(3,2), redMin)
       _state2.setField(Position(3,3), redMin)
 
-      def state = _state.copy // TODO: Implement!
-      def state2 = _state2.copy // TODO: Implement!
+      def state = _state.copy
+      def state2 = _state2.copy
   }
 
   "Game Over Evaluator" should "not count diagonals" in {

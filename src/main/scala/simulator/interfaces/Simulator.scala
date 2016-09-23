@@ -7,7 +7,6 @@ import simulator.interfaces.game_elements.{Action, PlaceMinion}
 
 import scala.collection.mutable
 
-// TODO implement two rule sets: Fair and unfair.
 // In the fair mode, the black player has a chance to take a last action when a winning condition is met.
 class Simulation(red: Player, black: Player) {
 
