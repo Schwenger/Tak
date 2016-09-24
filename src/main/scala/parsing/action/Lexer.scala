@@ -41,7 +41,7 @@ object Lexer extends RegexParsers {
 
   def tokens: Parser[List[ActionParseToken]] = {
     phrase(rep1(
-      number | surrender | placecmd | movecmd | position | capstone | minion | north | south | wall | take | drop |
+      number | surrender | placecmd | movecmd | position | capstone | minion | north | south | wall | drop |
       from | west | east | at | to | lpar | rpar | comma | stack | slidecmd | my | a
     ))
   }
