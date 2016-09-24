@@ -127,24 +127,23 @@ class GameLogicGameOverSpec extends FlatSpec with Matchers {
     GameOver(state) should be (Some(Black))
   }
 
-  it should "detect an invalid situation" in {
-    /*
-              y __ __ __ __
-              3|RM|RM|RM|RM|
-              2|RM|RM|__|RM|
-              1|BM|BM|__|__|
-              0|__|BM|BW|BM|
-                 0  1  2  3 x
-     */
-    val f = fixture
-    val state = f.state
-    state.setField(Position(1,3), f.redMin)
-    a [IllegalStateException] should be thrownBy {
-      GameOver(state)
-    }
-  }
-
-
+  // This is actually just a rarely occurring corner case with undefined outcome.
+//  it should "detect an invalid situation" in {
+//    /*
+//              y __ __ __ __
+//              3|RM|RM|RM|RM|
+//              2|RM|RM|__|RM|
+//              1|BM|BM|__|__|
+//              0|__|BM|BW|BM|
+//                 0  1  2  3 x
+//     */
+//    val f = fixture
+//    val state = f.state
+//    state.setField(Position(1,3), f.redMin)
+//    a [IllegalStateException] should be thrownBy {
+//      GameOver(state)
+//    }
+//  }
 
   it should "identity the winner when there is a full board" in {
     /*
