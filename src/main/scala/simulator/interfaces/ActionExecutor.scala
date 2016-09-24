@@ -22,7 +22,7 @@ object ActionExecutor {
     action match {
       case PlaceCapstone(pos) =>
         executePlace(state, pos, minion = false, Capstone(player))
-      case PlaceMinion(pos, _) =>
+      case PlaceMinion(pos) =>
         executePlace(state, pos, minion = true, Minion(player))
       case PlaceWall(pos) =>
         executePlace(state, pos, minion = true, Wall(player))
