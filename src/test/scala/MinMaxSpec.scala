@@ -40,7 +40,7 @@ class MinMaxSpec extends FlatSpec with Matchers {
         | RM & _
       """.stripMargin
     val a = MinMax(f.state(stateStr), f.eval, f.supplier(c), 1, c)
-    a shouldBe PlaceMinion(Position(1,1), pseudo = false)
+    a shouldBe PlaceMinion(Position(1,1))
   }
 
   it should "output the winning move for red with depth 1" in {
@@ -53,7 +53,7 @@ class MinMaxSpec extends FlatSpec with Matchers {
         | BM & _
       """.stripMargin
     val a1 = MinMax(f.state(stateStr1), f.eval, f.supplier(c), 1, c)
-    a1 shouldBe PlaceMinion(Position(1,1), pseudo = false)
+    a1 shouldBe PlaceMinion(Position(1,1))
 
     val stateStr2 =
       """
@@ -61,7 +61,7 @@ class MinMaxSpec extends FlatSpec with Matchers {
         | RM & _
       """.stripMargin
     val a2 = MinMax(f.state(stateStr2), f.eval, f.supplier(c), 1, c)
-    a2 shouldBe PlaceMinion(Position(0,1), pseudo = false)
+    a2 shouldBe PlaceMinion(Position(0,1))
 
     val stateStr3 =
       """
@@ -69,7 +69,7 @@ class MinMaxSpec extends FlatSpec with Matchers {
         | _  & _
       """.stripMargin
     val a3 = MinMax(f.state(stateStr3), f.eval, f.supplier(c), 1, c)
-    a3 shouldBe PlaceMinion(Position(1,1), pseudo = false)
+    a3 shouldBe PlaceMinion(Position(1,1))
 
     val stateStr4 =
       """
@@ -77,7 +77,7 @@ class MinMaxSpec extends FlatSpec with Matchers {
         | _ & _
       """.stripMargin
     val a4 = MinMax(f.state(stateStr4), f.eval, f.supplier(c), 1, c)
-    a4 shouldBe PlaceMinion(Position(1,1), pseudo = false)
+    a4 shouldBe PlaceMinion(Position(1,1))
 
   }
 }

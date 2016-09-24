@@ -109,7 +109,7 @@ object GameLogic {
 
     action match {
       case PlaceCapstone(dest) => state(dest).isEmpty && state.capstonesLeft(color) > 0
-      case PlaceMinion(dest, _) => state(dest).isEmpty && state.minionsLeft(color) > 0
+      case PlaceMinion(dest) => state(dest).isEmpty && state.minionsLeft(color) > 0
       case PlaceWall(dest) => state(dest).isEmpty && state.minionsLeft(color) > 0
       case Slide(src, stones, dir) => validSlide(state, src, stones, dir)
       case Move(src, dir) => validMove(state, src, dir)

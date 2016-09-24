@@ -37,7 +37,7 @@ object Compiler {
 
   def compilePlaceKind(t: ASTTokenKind): GamePosition => GameAction = t.kind match {
     case Capstone => PlaceCapstone
-    case Minion   => PlaceMinion(_, pseudo = false)
+    case Minion   => PlaceMinion
     case Wall     => PlaceWall
     case Stack    => throw ActionCompilerError("Cannot place Stacks!")
   }
