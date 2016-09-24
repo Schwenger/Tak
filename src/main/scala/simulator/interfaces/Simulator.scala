@@ -8,9 +8,9 @@ import simulator.interfaces.game_elements.{Action, PlaceMinion}
 import scala.collection.mutable
 
 // In the fair mode, the black player has a chance to take a last action when a winning condition is met.
-class Simulation(red: Player, black: Player) {
+class Simulation(red: Player, black: Player, size: Int) {
 
-  var state: GameState = new GameState(4)
+  var state: GameState = new GameState(size)
   var turn = 0
   private var turns: List[PlayerMapping[Action]] = Nil
 
@@ -67,8 +67,8 @@ object Simulator {
     * @param black Second Player
     * @return results are provided to the players directly using the respective accept method
     */
-  def simulate(red: Player, black: Player) = {
-      val sim = new Simulation(red, black)
+  def apply(red: Player, black: Player, size: Int = 4) = {
+      val sim = new Simulation(red, black, size)
       var result: Option[PlayerColor] = None
 
       sim.simulateFirstTurn()
