@@ -103,15 +103,18 @@ class CLI extends Interface {
       println("Well, so be it.")
       println("First choose who plays as Red.")
       val opponentR = opponentDialog
+      println(s"${opponentR.name} will play as Red.")
       val red = (size: Int) => opponentR.toPlayer(Red, size)
       println("Now choose who plays as Black.")
       val opponentB = opponentDialog
+      println(s"${opponentB.name} will play as Black.")
       val black = (size: Int) => opponentB.toPlayer(Black, size)
       PlayerMapping(red, black)
     case 1 =>
       val human = colorDialog
       val humanPlayer = (size:Int) => new UserPlayer(human, size)
       val opp = opponentDialog
+      println(s"You will play against ${opp.name}.")
       val oppPlayer = (size: Int) => opp.toPlayer(!human, size)
       human match {
         case Red => PlayerMapping(humanPlayer, oppPlayer)
@@ -146,11 +149,10 @@ class CLI extends Interface {
     println()
     printOpp()
     println()
-    // TODO buggy.
     val fallback = Opponent.all(Random.nextInt(Opponent.all.length))
     val giveup = s"Well, I think ${fallback.name} is most suited in this case. Let's stick with that."
     def qualified(s: String) =
-      Range(1, Opponent.all.length).find(c => s.equalsIgnoreCase(c.toString) || s.equalsIgnoreCase(c + ")"))
+      Opponent.all.indices.find(c => s.equalsIgnoreCase((c + 'a').toChar.toString) || s.equalsIgnoreCase((c + 'a').toChar + ")"))
     val pf: PartialFunction[String, Int] = {
       case s if qualified(s).isDefined => qualified(s).get
     }
@@ -164,17 +166,15 @@ class CLI extends Interface {
       case "red" | "r" | "not black" => PlayerColor.Red
       case "black" | "b" | "not red" => PlayerColor.Black
     }
-    readNTimes("Ehr... You are Red.", PlayerColor.Red, pf)
+    readNTimes("Ehh... You are Red.", PlayerColor.Red, pf)
   }
 
   private def numPlayerDialog: Int = {
-    println("How many humans are there?")
-    readNumber("I don't understand your language. I'll just assume there are five humans.", 5, None)
 
-    println("How many of those want to play?")
+    println("How many human players are there?")
 
     @tailrec def read: Int = {
-      val num = readNumber("Sign, whatever. One of you wants to play. No discussion.", 1, Some("C'mon give me a number. DIGITS!!!"))
+      val num = readNumber("Sigh, whatever. One of you wants to play. No discussion.", 1, Some("C'mon give me a number. DIGITS!!!"))
       if(num < 0 || num > 2) {
         println("Haha, very phunny you old joke cookie.")
         println("Now, seriously, how many?")
