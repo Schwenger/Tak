@@ -18,6 +18,7 @@ class UserPlayer(override val kind: PlayerColor, override val boardSize: Int) ex
   override def init(state: GameState): Unit = {
     println("Welcome to a round of Tak. Prepare to be obliterated.")
     println()
+    printHelp()
   }
 
   /**
@@ -37,18 +38,23 @@ class UserPlayer(override val kind: PlayerColor, override val boardSize: Int) ex
     readAction(state)
   }
 
-  def readAction(state: GameState, first: Boolean = false): Action = ActionParser(StdIn.readLine()) match {
-    case Success(a) =>
-      val valid = GameLogic.isValid(state, a)(kind)
-      lazy val validFirst = a.isInstanceOf[PlaceMinion]
-      if (!valid || first && !validFirst) {
-        println("This was an invalid move. Either you are trying to cheat and got caught or you are not smart enough for Tak.")
-        println("Anyway, try again.")
+  def readAction(state: GameState, first: Boolean = false): Action = StdIn.readLine().trim() match {
+    case s if s.contains("help") || s.contains("-h") =>
+      printHelp()
+      readAction(state, first)
+    case cmd => ActionParser(cmd) match {
+      case Success(a) =>
+        val valid = GameLogic.isValid(state, a)(kind)
+        lazy val validFirst = a.isInstanceOf[PlaceMinion]
+        if (!valid || first && !validFirst) {
+          println("This was an invalid move. Either you are trying to cheat and got caught or you are not smart enough for Tak.")
+          println("Anyway, try again.")
+          readAction(state, first)
+        } else a
+      case Failure(e) =>
+        println(e)
         readAction(state)
-      } else a
-    case Failure(e) =>
-      println(e)
-      readAction(state)
+    }
   }
 
 
@@ -89,7 +95,15 @@ class UserPlayer(override val kind: PlayerColor, override val boardSize: Int) ex
     println(state.toString)
     println()
     println("I hope you enjoyed the game!")
-    println("Thank you, come again! ~ Apu Nahasapeemapetilon")
+  }
+
+  private def printHelp(): Unit = {
+    println("To issue a command just state your wish.")
+    println("For example say:")
+    println("\"place a minion at (3,4)\" or \"move my minion at (0,3) north\"")
+    println("For slides say for example:")
+    println("\"slide (3,4) down drop 3, 2\" to place 3 pieces at (3,3) and 2 pieces at (3,2).")
+    println("If you want to chicken out, just say \"surrender\" or a synonym thereof.")
     println()
   }
 
