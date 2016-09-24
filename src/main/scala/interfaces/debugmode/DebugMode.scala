@@ -16,8 +16,10 @@ abstract class DebugMode {
       Simulator(red, black, size)
     }
     val stop = System.currentTimeMillis()
+    val elapsed = stop - start
 
-    println(s"Simulation terminated successfully. Time elapsed for $runs simulations: ${stop - start}")
+    println("Simulation terminated successfully.")
+    println(s"Time elapsed for $runs simulations: $elapsed. That's ${elapsed / runs}")
     println(s"Red won: ${Simulator.won._1}, Black won: ${Simulator.won._2}.")
   }
 
