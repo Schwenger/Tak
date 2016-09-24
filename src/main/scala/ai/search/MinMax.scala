@@ -1,6 +1,6 @@
 package ai.search
 import ai.evaluation.Evaluator
-import simulator.interfaces.PlayerColor.PlayerColor
+import simulator.interfaces.PlayerColor.{Black, PlayerColor}
 import simulator.interfaces.elements.Action
 import simulator.interfaces.{ActionExecutor, GameState}
 
@@ -19,8 +19,7 @@ object Max extends Comp {
 
 object MinMax extends SearchStrategy {
 
-  class MMNode(val state: GameState, val action: Action, val context: Int)
-    extends SearchNode[Int](state, action, context)
+  case class Node(from: Option[Action], prefAction: Option[Action], value: Int)
 
   /**
     * Applies the MinMax search strategy on the given state.
@@ -33,28 +32,28 @@ object MinMax extends SearchStrategy {
     * @param maxPlayer the player whose turn it is
     * @return best state w.r.t maximizing eval
     */
-  override def apply(state: GameState, eval: Evaluator, actionSupplier: (GameState) => Seq[Action],
+  override def apply(state: GameState, eval: Evaluator, actionSupplier: (GameState, PlayerColor) => Seq[Action],
                      depth: Int, maxPlayer: PlayerColor): Action = {
 
-    implicit val order = Ordering.by[MMNode, Int](_.context)
+    implicit val order = Ordering.by[Node, Int](_.value)
     assert(depth > 0)
     /*
     Recursion step; calls itself until depth becomes 0.
     States are then evaluated and the maximizing/minimizing nodes gets passed upwards
     such that the best action w.r.t. eval for maxPlayer can be returned.
      */
-    def run(state: GameState, action: Action, depth: Int, best: Comp, color: PlayerColor): MMNode = {
-      assert(depth > 0 || action != null)
-      if(depth == 0)
-        new MMNode(state, action, eval(color, state))
-      else {
+    def run(state: GameState, lastAction: Option[Action], depth: Int, best: Comp, color: PlayerColor): Node = {
+      assert(depth > 0 || lastAction.isDefined)
+      if (depth == 0) {
+        Node(lastAction, None, eval(state))
+      } else {
         def expandState(state: GameState, action: Action): GameState = ActionExecutor(action, state, color)
-        def expandAction(action: Action) = run(expandState(state, action), action, depth - 1, !best, !color)
-        val a = actionSupplier(state)
-        val expanded: Seq[MMNode] = actionSupplier(state) map expandAction
-        best(expanded)
+        def expandAction(current: Action) = run(expandState(state, current), Some(current), depth - 1, !best, !color)
+        val expanded: Seq[Node] = actionSupplier(state, color) map expandAction
+        val opt = best(expanded)
+        Node(from = lastAction, prefAction = opt.from, opt.value)
       }
     }
-    run(state, null, depth, Max, maxPlayer).action
+    run(state, None, depth, Max, maxPlayer).prefAction.get // cannot be empty since we assert depth > 0
   }
 }
