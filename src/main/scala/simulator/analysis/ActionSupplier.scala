@@ -11,6 +11,7 @@ object ActionSupplier {
 
   /**
     * Collects the Actions a given Player can apply in the given State. Returns an empty list if there is none.
+    * @note does *not* return `Surrender`.
     * @param state for which the applicable Actions are collected.
     * @param color of the player for which Actions are collected.
     * @return list of applicable actions
@@ -66,15 +67,13 @@ object ActionSupplier {
 
   private def makeSlide(stackSize: Int, pos: Position, dir: Direction): List[Slide] = {
     def _dropSet(n: Int): List[List[Int]] = n match {
-      case 0 => Nil
+      case 0 => List(Nil)
       case _ =>
-        val r: Seq[List[Int]] = for (m <- 0 until n) yield _dropSet(m) flatMap (n :: _)
-        List(3) :: r.toList
+        val rec = _dropSet(n - 1)
+        rec ::: (rec map (n :: _))
     }
-    _dropSet(stackSize) map (seq => Slide(pos, seq, dir))
+    _dropSet(stackSize) filter(_.nonEmpty) map (seq => Slide(pos, seq, dir))
   }
-
-
 
   @inline def emptyFields(state: GameState): Seq[Position] = state.zipWithPosition.flatten filter (_._1.isEmpty) map (_._2)
 
