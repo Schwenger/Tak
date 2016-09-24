@@ -5,6 +5,8 @@ import simulator.interfaces.PlayerColor.PlayerColor
 
 trait Evaluator {
 
-  def apply(color: PlayerColor, state: GameState): Int
+  val color: PlayerColor
+
+  def apply(state: GameState): Int
 
 }

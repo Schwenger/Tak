@@ -3,8 +3,8 @@ import simulator.analysis.Analyzer
 import simulator.interfaces.GameState
 import simulator.interfaces.PlayerColor.PlayerColor
 
-object TokenCount extends Evaluator {
+class TokenCount(override val color: PlayerColor) extends Evaluator {
 
-  override def apply(color: PlayerColor, state: GameState): Int = Analyzer.domination(state)(color)
+  override def apply(state: GameState): Int = Analyzer.domination(state)(color)
 
 }

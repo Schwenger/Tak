@@ -8,7 +8,7 @@ import simulator.interfaces.elements.{Action, Position, Result}
 import simulator.interfaces.{GameState, Player, PlayerMapping}
 
 class MinMaxPlayer(override val kind: PlayerColor, eval: Evaluator, depth: Int = 3, override val boardSize: Int) extends Player {
-  val supplier: GameState => Seq[Action] = ActionSupplier(_)(kind)
+  val supplier: (GameState, PlayerColor) => Seq[Action] = (state, color) => ActionSupplier(state)(color)
 
   /**
     * Called once before the actual game starts.
