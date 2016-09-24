@@ -19,7 +19,7 @@ abstract class DebugMode {
     val elapsed = stop - start
 
     println("Simulation terminated successfully.")
-    println(s"Time elapsed for $runs simulations: $elapsed. That's ${elapsed / runs}")
+    println(s"Time elapsed for $runs simulations: $elapsed. That's ${elapsed / runs} per run.")
     println(s"Red won: ${Simulator.won._1}, Black won: ${Simulator.won._2}.")
   }
 
