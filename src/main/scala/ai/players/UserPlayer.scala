@@ -2,14 +2,13 @@ package ai.players
 
 import parsing.action.ActionParser
 import simulator.interfaces.PlayerColor.PlayerColor
-import simulator.interfaces.game_elements.{Action, Position, Result}
+import simulator.interfaces.game_elements.{Action, PlaceMinion, Position, Result}
 import simulator.interfaces.{GameLogic, GameState, Player, PlayerMapping}
 
 import scala.io.StdIn
 import scala.util.{Failure, Success}
 
-class UserPlayer(color: PlayerColor) extends Player {
-  override val kind: PlayerColor = color
+class UserPlayer(override val kind: PlayerColor, override val boardSize: Int) extends Player {
 
   /**
     * Called once before the actual game starts.
@@ -38,9 +37,11 @@ class UserPlayer(color: PlayerColor) extends Player {
     readAction(state)
   }
 
-  def readAction(state: GameState): Action = ActionParser(StdIn.readLine()) match {
+  def readAction(state: GameState, first: Boolean = false): Action = ActionParser(StdIn.readLine()) match {
     case Success(a) =>
-      if (!GameLogic.isValid(state, a)(kind)) {
+      val valid = GameLogic.isValid(state, a)(kind)
+      lazy val validFirst = a.isInstanceOf[PlaceMinion]
+      if (!valid || first && !validFirst) {
         println("This was an invalid move. Either you are trying to cheat and got caught or you are not smart enough for Tak.")
         println("Anyway, try again.")
         readAction(state)
@@ -55,10 +56,16 @@ class UserPlayer(color: PlayerColor) extends Player {
     * Called one after init and before the first call to nextAction.
     * Computes the position where the opponents first Minion should be placed. This corresponds to the first action.
     *
-    * @param occupied reports the only already occupied game position if the player is black
+    * @param state either an empty board or a board with a token of this player is already placed
     * @return the position for the opponents first Minion
     */
-  override def firstAction(occupied: Option[Position]): Position = ???
+  override def firstAction(state: GameState): Position = {
+    println("First move: Where do you want to place your opponents token?")
+    println()
+    println(state)
+    println()
+    readAction(state, first = true).origin
+  }
 
   /**
     * Called once after the game is decided.

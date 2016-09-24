@@ -40,13 +40,13 @@ class Simulation(red: Player, black: Player) {
   def simulateFirstTurn() = {
     red.init(state)
     black.init(state)
-    val rDec = red.firstAction(None)
-    val bDec = black.firstAction(Some(rDec))
-    val rAction = PlaceMinion(bDec, pseudo = true)
-    val bAction = PlaceMinion(rDec, pseudo = true)
-    state = ActionExecutor(rAction, state, Red)
-    state = ActionExecutor(bAction, state, Black)
-    turns ::= PlayerMapping(rAction, bAction)
+    val pos4black = red.firstAction(state)
+    val pseudoBMove = PlaceMinion(pos4black)
+    state = ActionExecutor(pseudoBMove, state, Black)
+    val pos4red= black.firstAction(state)
+    val pseudoRMove = PlaceMinion(pos4red)
+    state = ActionExecutor(pseudoRMove, state, Red)
+    turns ::= PlayerMapping(pseudoRMove, pseudoBMove)
     turn += 1
   }
 

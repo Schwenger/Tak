@@ -25,7 +25,8 @@ case class PlayerMapping[T](red: T, black: T) {
 
 trait Player {
 
-  val kind: PlayerColor
+  implicit val kind: PlayerColor
+  val boardSize: Int
 
   /**
     * Called once before the actual game starts.
@@ -45,10 +46,10 @@ trait Player {
   /**
     * Called once after init and before the first call to nextAction.
     * Computes the position where the opponents first Minion should be placed. This corresponds to the first action.
-    * @param occupied reports the only already occupied game position if the player is black
+    * @param state either an empty board or a board with a token of this player is already placed
     * @return the position for the opponents first Minion
     */
-  def firstAction(occupied: Option[Position]): Position
+  def firstAction(state: GameState): Position
 
   /**
     * Called once after the game is decided.

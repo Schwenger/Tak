@@ -6,9 +6,8 @@ import simulator.interfaces.PlayerColor.PlayerColor
 import simulator.interfaces.game_elements.{Action, Minion, Position, Result}
 import simulator.interfaces.{GameLogic, GameState, Player, PlayerMapping}
 
-class MinMaxPlayer(color: PlayerColor, eval: Evaluator, depth: Int = 3, boardSize: Int) extends Player {
-  override val kind: PlayerColor = color
-  val supplier: GameState => Seq[Action] = GameLogic.availableActions(_)(color)
+class MinMaxPlayer(override val kind: PlayerColor, eval: Evaluator, depth: Int = 3, override val boardSize: Int) extends Player {
+  val supplier: GameState => Seq[Action] = GameLogic.availableActions(_)(kind)
 
   /**
     * Called once before the actual game starts.
@@ -26,21 +25,19 @@ class MinMaxPlayer(color: PlayerColor, eval: Evaluator, depth: Int = 3, boardSiz
     * @return the action that is supposed to be executed next for this player.
     */
 override def nextAction(turn: PlayerMapping[Action], state: GameState): Action = {
-  MinMax(state, eval, supplier, depth, color)
+  MinMax(state, eval, supplier, depth, kind)
 }
 
   /**
     * Called one after init and before the first call to nextAction.
     * Computes the position where the opponents first Minion should be placed. This corresponds to the first action.
     *
-    * @param occupied reports the only already occupied game position if the player is black
+    * @param state either an empty board or a board with a token of this player is already placed
     * @return the position for the opponents first Minion
     */
-  override def firstAction(occupied: Option[Position]): Position = {
+  override def firstAction(state: GameState): Position = {
     // We compute the first turn from the other player's perspective
-    val board = new GameState(boardSize)
-    occupied.foreach(p => board.setField(p, Minion(color)))
-    val action = MinMax(board, eval, supplier, depth, !color)
+    val action = MinMax(state, eval, supplier, depth, !kind)
     action.origin
   }
 
