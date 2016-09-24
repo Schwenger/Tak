@@ -8,9 +8,9 @@ import scala.annotation.tailrec
 object StateDeserializer {
 
   def apply(str: String): GameState = {
-    val strs = str.split('\n') map (_.trim()) filter (_.length > 0)
+    val strs = str.split('\n').reverse map (_.trim()) filter (_.length > 0)
     val state = new GameState(strs.length)
-    val consume = (row: Int) => (col: Int, t: Option[Token]) => state.setField(Position(row, col), t)
+    val consume = (row: Int) => (col: Int, t: Option[Token]) => state.setField(Position(x = col, y = row), t)
     deserializeLines(consume, strs.toList, 0)
     state
   }

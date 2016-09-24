@@ -26,9 +26,35 @@ class StateDeserializerSpec extends FlatSpec with Matchers {
       """.stripMargin
     val state = StateDeserializer(board)
     state(0, 0) should be (Some(Minion(Red)))
-    state(0, 1) should be (None)
+    state(0, 1) should be (Some(Minion(Red)))
     state(1, 0) should be (Some(Minion(Red)))
-    state(1, 1) should be (Some(Minion(Red)))
+    state(1, 1) should be (None)
+  }
+
+  it should "recognize multiple empty fields" in {
+    val board =
+      """
+        |RM & _
+        |_ & RM
+      """.stripMargin
+    val state = StateDeserializer(board)
+    state(0, 0) should be (None)
+    state(0, 1) should be (Some(Minion(Red)))
+    state(1, 0) should be (Some(Minion(Red)))
+    state(1, 1) should be (None)
+  }
+
+  it should "recognize multiple empty fields independent of their symmetry (@see last test)" in {
+    val board =
+      """
+        |RM & _
+        |RM & _
+      """.stripMargin
+    val state = StateDeserializer(board)
+    state(0, 0) should be (Some(Minion(Red)))
+    state(0, 1) should be (Some(Minion(Red)))
+    state(1, 0) should be (None)
+    state(1, 1) should be (None)
   }
 
   it should "cope with spaces" in {
@@ -39,9 +65,9 @@ class StateDeserializerSpec extends FlatSpec with Matchers {
       """.stripMargin
     val state = StateDeserializer(board)
     state(0, 0) should be (Some(Minion(Red)))
-    state(0, 1) should be (None)
+    state(0, 1) should be (Some(Minion(Red)))
     state(1, 0) should be (Some(Minion(Red)))
-    state(1, 1) should be (Some(Minion(Red)))
+    state(1, 1) should be (None)
   }
 
   it should "recognize walls" in {
@@ -52,9 +78,9 @@ class StateDeserializerSpec extends FlatSpec with Matchers {
       """.stripMargin
     val state = StateDeserializer(board)
     state(0, 0) should be (Some(Minion(Red)))
-    state(0, 1) should be (Some(Wall(Red)))
+    state(0, 1) should be (Some(Minion(Red)))
     state(1, 0) should be (Some(Minion(Red)))
-    state(1, 1) should be (Some(Minion(Red)))
+    state(1, 1) should be (Some(Wall(Red)))
   }
 
   it should "recognize capstones" in {
@@ -65,21 +91,21 @@ class StateDeserializerSpec extends FlatSpec with Matchers {
       """.stripMargin
     val state = StateDeserializer(board)
     state(0, 0) should be (Some(Minion(Red)))
-    state(0, 1) should be (Some(Capstone(Red)))
+    state(0, 1) should be (Some(Minion(Red)))
     state(1, 0) should be (Some(Minion(Red)))
-    state(1, 1) should be (Some(Minion(Red)))
+    state(1, 1) should be (Some(Capstone(Red)))
   }
 
-  it should "distinguish betwee colors" in {
+  it should "distinguish between colors" in {
     val board =
       """
         |RM & RM
         |BM & RM
       """.stripMargin
     val state = StateDeserializer(board)
-    state(0, 0) should be (Some(Minion(Red)))
+    state(0, 0) should be (Some(Minion(Black)))
     state(0, 1) should be (Some(Minion(Red)))
-    state(1, 0) should be (Some(Minion(Black)))
+    state(1, 0) should be (Some(Minion(Red)))
     state(1, 1) should be (Some(Minion(Red)))
   }
 
@@ -91,13 +117,13 @@ class StateDeserializerSpec extends FlatSpec with Matchers {
       """.stripMargin
     val state = StateDeserializer(board)
     state(0, 0) should be (Some(Minion(Red)))
-    state(0, 1) shouldBe 'defined
-    state(0, 1).get shouldBe a [Stack]
-    val content = state(0, 1).get.asInstanceOf[Stack].content
+    state(0, 1) should be (Some(Minion(Red)))
+    state(1, 0) should be (Some(Minion(Red)))
+    state(1, 1) shouldBe 'defined
+    state(1, 1).get shouldBe a [Stack]
+    val content = state(1, 1).get.asInstanceOf[Stack].content
     content.head should be (Minion(Red))
     content(1) should be (Minion(Black))
-    state(1, 0) should be (Some(Minion(Red)))
-    state(1, 1) should be (Some(Minion(Red)))
   }
 
 }
