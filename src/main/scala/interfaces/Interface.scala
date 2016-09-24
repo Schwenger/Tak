@@ -11,6 +11,15 @@ trait Interface {
     players = PlayerMapping(red, black)
   }
 
+  protected def red = {
+    assert(players != null)
+    players.red
+  }
+  protected def black = {
+    assert(players != null)
+    players.black
+  }
+
   def greet(): Unit
   def play(): Unit
   def rematch: Boolean
