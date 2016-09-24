@@ -14,6 +14,7 @@ class CLI extends Interface {
   val rulesURL = "cheapass.com/sites/default/files/TakBetaRules3-10-16.pdf"
 
   override def greet(): Unit = {
+
     println("Welcome to Tak!")
     println("We invite you immerse in the wonderful world of strategy, schemings, and the art of building a street.")
 
@@ -23,13 +24,17 @@ class CLI extends Interface {
 
     println()
 
-    val numHumans = numPlayerDialog()
+    val boardSize = boardSizeDialog
+
+    println()
+
+    val numHumans = numPlayerDialog
 
     println()
 
     val players = selectPlayers(numHumans)
 
-    super.setPlayers(players.red, players.black)
+    super.setPlayers(players.red(boardSize), players.black(boardSize))
 
     println()
     println("You're ready to go. Have fun!")
@@ -44,29 +49,59 @@ class CLI extends Interface {
 
   override def bye(): Unit = ???
 
-  def selectPlayers(numHumans: Int): PlayerMapping[Player] = numHumans match {
+  private def boardSizeDialog: Int = {
+    println("How large should the board be?")
+    println("We can play on boards of size 2 up to 8") //TODO Retrieve values dynamically from GameState or any config.
+    val giveup = "Well, let's just settle with 4x4."
+    def validSize(s: String): Option[Int] = {
+      val digitsOnly = s.length == 1 && s.charAt(0).isDigit
+      if(digitsOnly) {
+        val size = s.toInt
+        if (size >= 2 && size <= 8)
+          Some(size)
+        else
+          None
+      } else {
+        val split = s.split("x") map (_.trim()) filter (_.length == 0)
+        if (split.length != 3 || split(0) != split(2) || split(1).toLowerCase() != "x")
+          None
+        else
+          Some(split(0).toInt)
+      }
+    }
+
+    val pf: PartialFunction[String, Int] = {
+      case s if validSize(s).isDefined => validSize(s).get
+    }
+
+    readNTimes(giveup, 4, pf)
+  }
+
+  private def selectPlayers(numHumans: Int): PlayerMapping[Int => Player] = numHumans match {
     case 0 =>
       println("So you want to watch, huh?")
       println("Well, so be it.")
       println("First choose who plays as Red.")
-      val opponentR = opponentDialog()
-      val red = opponentR.toPlayer
+      val opponentR = opponentDialog
+      val red = (size: Int) => opponentR.toPlayer(Red, size)
       println("Now choose who plays as Black.")
-      val opponentB = opponentDialog()
-      val black = opponentB.toPlayer
+      val opponentB = opponentDialog
+      val black = (size: Int) => opponentB.toPlayer(Black, size)
       PlayerMapping(red, black)
     case 1 =>
-      val human = colorDialog()
-      val humanPlayer = new UserPlayer(human)
-      val opp = opponentDialog()
-      val oppPlayer = opp.toPlayer
+      val human = colorDialog
+      val humanPlayer = (size:Int) => new UserPlayer(human, size)
+      val opp = opponentDialog
+      val oppPlayer = (size: Int) => opp.toPlayer(!human, size)
       human match {
         case Red => PlayerMapping(humanPlayer, oppPlayer)
         case Black => PlayerMapping(oppPlayer, humanPlayer)
       }
     case 2 =>
       println("Neat, so I can lean back and enjoy.")
-      PlayerMapping(new UserPlayer(PlayerColor.Red), new UserPlayer(PlayerColor.Black))
+      val red = (size: Int) => new UserPlayer(PlayerColor.Red, size)
+      val black = (size: Int) => new UserPlayer(PlayerColor.Black, size)
+      PlayerMapping(red, black)
   }
 
   private def ruleDialog(): Unit = {
@@ -80,7 +115,7 @@ class CLI extends Interface {
     }
   }
 
-  private def opponentDialog(): Opponent = {
+  private def opponentDialog: Opponent = {
     println("It's time to select your opponent. Choose wisely!")
     @tailrec def printOpp(opps: List[Opponent] = Opponent.all, item: Char = 'a'): Unit = opps match {
       case o :: os =>
@@ -103,7 +138,7 @@ class CLI extends Interface {
     Opponent.all(ix)
   }
 
-  private def colorDialog(): PlayerColor = {
+  private def colorDialog: PlayerColor = {
     println("What color would you fancy?")
     val pf: PartialFunction[String, PlayerColor] = {
       case "red" | "r" | "not black" => PlayerColor.Red
@@ -112,7 +147,7 @@ class CLI extends Interface {
     readNTimes("Ehr... You are Red.", PlayerColor.Red, pf)
   }
 
-  private def numPlayerDialog(): Int = {
+  private def numPlayerDialog: Int = {
     println("How many humans are there?")
     readNumber("I don't understand your language. I'll just assume there are five humans.", 5, None)
 
