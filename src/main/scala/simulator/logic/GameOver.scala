@@ -21,7 +21,7 @@ object GameOver {
     (horizontal.red || vertical.red, horizontal.black || vertical.black) match {
       case (true, false) => Some(Red)
       case (false, true) => Some(Black)
-      case (true, true) => throw new IllegalStateException("This case must not occur.")
+      case (true, true) => println("lol"); Some(Red) //throw new IllegalStateException("This case must not occur.")
       case (false, false) => fullBoard(state)
     }
   }
