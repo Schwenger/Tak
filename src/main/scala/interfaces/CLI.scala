@@ -3,7 +3,7 @@ package interfaces
 import ai.players.UserPlayer
 import interfaces.opponent.{Jesus, Opponent}
 import simulator.interfaces.PlayerColor.{Black, PlayerColor, Red}
-import simulator.interfaces.{Player, PlayerColor, PlayerMapping}
+import simulator.interfaces.{Player, PlayerColor, PlayerMapping, Simulator}
 
 import scala.annotation.tailrec
 import scala.io.StdIn
@@ -12,6 +12,10 @@ import scala.util.Random
 class CLI extends Interface {
 
   val rulesURL = "cheapass.com/sites/default/files/TakBetaRules3-10-16.pdf"
+
+  var size: Int = 0
+  var games: Int = 0
+  var wins = PlayerMapping(0, 0)
 
   override def greet(): Unit = {
 
@@ -24,7 +28,7 @@ class CLI extends Interface {
 
     println()
 
-    val boardSize = boardSizeDialog
+    size = boardSizeDialog
 
     println()
 
@@ -34,20 +38,36 @@ class CLI extends Interface {
 
     val players = selectPlayers(numHumans)
 
-    super.setPlayers(players.red(boardSize), players.black(boardSize))
+    super.setPlayers(players.red(size), players.black(size))
 
     println()
     println("You're ready to go. Have fun!")
 
   }
 
-  override def play(): Unit = ???
+  override def play(): Unit = {
+    println()
+    println("Everything is set up. Put on your VR device now.")
+    Simulator(super.red, super.black, size)
+  }
 
-  override def rematch: Boolean = ???
+  override def rematch: Boolean = {
+    println()
+    println("Are you up for a rematch?")
+    readYesNo("You know what: I don't want to play with you anymore.", fallback = false)
+  }
 
-  override def summary(): Unit = ???
+  override def summary(): Unit = {
+    println()
+    println("Let's sum this up.")
+    println(s"We played $games times, ${wins.red} of which red won, ${wins.black} were a win of black.")
+  }
 
-  override def bye(): Unit = ???
+  override def bye(): Unit = {
+    println()
+    println("Thank you, come again! ~ Apu Nahasapeemapetilon")
+    println()
+  }
 
   private def boardSizeDialog: Int = {
     println("How large should the board be?")
