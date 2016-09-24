@@ -29,9 +29,6 @@ class MinMaxSpec extends FlatSpec with Matchers {
 
     }
 
-//  override def apply(state: GameState, eval: Evaluator, actionSupplier: (GameState) => Seq[Action],
-//                     depth: Int, maxPlayer: PlayerColor): Action = {
-
   "MinMax" should "compute the right move for red with depth 1" in {
     val f = fixture
     val c = Red
