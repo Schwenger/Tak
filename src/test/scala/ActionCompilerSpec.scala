@@ -60,6 +60,7 @@ class ActionCompilerSpec extends FlatSpec with Matchers {
     val f = fixture
     f.runAndCheck("place wall at (0,2)", PlaceWall(Position(0,2)))
   }
+
   it should "allow placing minions" in {
     val f = fixture
     f.runAndCheck("place a minion at (0,2)", PlaceMinion(Position(0,2)))

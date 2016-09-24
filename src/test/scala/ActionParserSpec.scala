@@ -44,6 +44,26 @@ class ActionParserSpec extends FlatSpec with Matchers {
     f.check(p, test)
   }
 
+  it should "parse a position with 'my' correctly" in {
+    val f = fixture
+    val p = f.parse("place my minion at (3,4)")
+    def test(ast: AST): Unit = {
+      ast should be (ASTAction(ASTPlace(ASTPosition(ASTNumber(3), ASTNumber(4)), ASTTokenKind(Minion))))
+    }
+    f.check(p, test)
+  }
+
+  it should "parse a articles and possessive pronouns properly" in {
+    val f = fixture
+    val p1 = f.parse("place my wall at (1,3)")
+    val p2 = f.parse("place the wall at (1,3)")
+    def test(ast: AST): Unit = {
+      ast should be (ASTAction(ASTPlace(ASTPosition(ASTNumber(1), ASTNumber(3)), ASTTokenKind(Wall))))
+    }
+    f.check(p1, test)
+    f.check(p2, test)
+  }
+
   it should "parse a slide correctly" in {
     val f = fixture
     val p = f.parse("slide (3,1) north drop 7, 5")

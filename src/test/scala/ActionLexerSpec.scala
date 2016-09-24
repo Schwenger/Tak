@@ -94,6 +94,28 @@ class ActionLexerSpec extends FlatSpec with Matchers {
     tokens(1) shouldBe TO
   }
 
+  it should "lex 'my' properly" in {
+    val input = "place my minion"
+    val lexRes = Lexer(input)
+    lexRes shouldBe 'isSuccess
+    val tokens: Seq[ActionParseToken] = lexRes.get
+    tokens.length should be (3)
+    tokens.head shouldBe PLACECMD
+    tokens(1) shouldBe MY
+    tokens(2) shouldBe MINION
+  }
+
+  it should "lex 'the' properly" in {
+    val input = "place the minion"
+    val lexRes = Lexer(input)
+    lexRes shouldBe 'isSuccess
+    val tokens: Seq[ActionParseToken] = lexRes.get
+    tokens.length should be (3)
+    tokens.head shouldBe PLACECMD
+    tokens(1) shouldBe MY
+    tokens(2) shouldBe MINION
+  }
+
   it should "ignore cases" in {
     val input = "at PoSiTion tO"
     val lexRes = Lexer(input)
