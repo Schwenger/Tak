@@ -37,7 +37,9 @@ class MinMaxSpec extends FlatSpec with Matchers {
         | RM & _
       """.stripMargin
     val a = MinMax(f.state(stateStr), eval, f.supplier, 1, c)
-    a shouldBe PlaceMinion(Position(1,0))
+    val option1 = a == PlaceMinion(Position(1,0))
+    val option2 = a == PlaceWall(Position(1,0))
+    option1 || option2 should be (true)
   }
 
   it should "output the winning move for red with depth 1" in {
@@ -51,7 +53,9 @@ class MinMaxSpec extends FlatSpec with Matchers {
         | BM & _
       """.stripMargin
     val a1 = MinMax(f.state(stateStr1), eval, f.supplier, 1, c)
-    a1 shouldBe PlaceMinion(Position(1,1))
+    val option11 = a1 == PlaceMinion(Position(1,1))
+    val option12 = a1 == PlaceWall(Position(1,1))
+    option11 || option12 should be (true)
 
     val stateStr2 =
       """
@@ -75,7 +79,9 @@ class MinMaxSpec extends FlatSpec with Matchers {
         | _ & _
       """.stripMargin
     val a4 = MinMax(f.state(stateStr4), eval, f.supplier, 1, c)
-    a4 shouldBe PlaceMinion(Position(1,0))
+    val option41 = a4 == PlaceMinion(Position(1,0))
+    val option42 = a4 == PlaceWall(Position(1,0))
+    option41 || option42 should be (true)
 
   }
 
@@ -91,7 +97,9 @@ class MinMaxSpec extends FlatSpec with Matchers {
         | _  & BM & _
       """.stripMargin
     val a1 = MinMax(f.state(stateStr1), eval, f.supplier, 2, c)
-    a1 shouldBe PlaceMinion(Position(1, 1))
+    val option1 = a1 == PlaceMinion(Position(1,1))
+    val option2 = a1 == PlaceWall(Position(1,1))
+    option1 || option2 should be (true)
   }
 
   it should "prevent a loss sliding in the way even though this means losing dominance" in {
@@ -103,7 +111,7 @@ class MinMaxSpec extends FlatSpec with Matchers {
       """
         | BM & BC & _
         | _  & RC & _
-        | _  & _  & Stack(RC,BM,BM)
+        | _  & _  & Stack(RC,BM)
       """.stripMargin
     val state = f.state(stateStr1)
     for (i <- 0 until state.minionsLeft(c))

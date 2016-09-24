@@ -4,6 +4,8 @@ import simulator.interfaces.PlayerColor.{Black, PlayerColor}
 import simulator.interfaces.elements.Action
 import simulator.interfaces.{ActionExecutor, GameState}
 
+import scala.util.Random
+
 sealed trait Comp {
   def apply[R](l: Seq[R])(implicit order: Ordering[R]): R
   def unary_!(): Comp
@@ -49,7 +51,8 @@ object MinMax extends SearchStrategy {
       } else {
         def expandState(state: GameState, action: Action): GameState = ActionExecutor(action, state, color)
         def expandAction(current: Action) = run(expandState(state, current), Some(current), depth - 1, !best, !color)
-        val expanded: Seq[Node] = actionSupplier(state, color) map expandAction
+        val availableActions = Random.shuffle(actionSupplier(state, color)) // we shuffle to make sure the supplier's order is irrelevant
+        val expanded: Seq[Node] = availableActions map expandAction
         val opt = best(expanded)
         Node(from = lastAction, prefAction = opt.from, opt.value)
       }
