@@ -46,12 +46,12 @@ object MinMax extends SearchStrategy {
      */
     def run(state: GameState, lastAction: Option[Action], depth: Int, best: Comp, color: PlayerColor): Node = {
       assert(depth > 0 || lastAction.isDefined)
-      if (depth == 0) {
+      lazy val availableActions = Random.shuffle(actionSupplier(state, color)) // we shuffle to make sure the supplier's order is irrelevant
+      if (depth == 0 || availableActions.isEmpty) {
         Node(lastAction, None, eval(state))
       } else {
         def expandState(state: GameState, action: Action): GameState = ActionExecutor(action, state, color)
         def expandAction(current: Action) = run(expandState(state, current), Some(current), depth - 1, !best, !color)
-        val availableActions = Random.shuffle(actionSupplier(state, color)) // we shuffle to make sure the supplier's order is irrelevant
         val expanded: Seq[Node] = availableActions map expandAction
         val opt = best(expanded)
         Node(from = lastAction, prefAction = opt.from, opt.value)
