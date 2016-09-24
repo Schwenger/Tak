@@ -6,7 +6,7 @@ case class Position(x: Int, y: Int) {
 
 // (0,0) is bottom right
 object Direction {
-  val directions = Seq(Right, Left, Up, Down)
+  val all = Seq(Right, Left, Up, Down)
   sealed trait Direction {
     def apply(pos: Position): Position
 
