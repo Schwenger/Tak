@@ -3,7 +3,8 @@ package ai.players
 import parsing.action.ActionParser
 import simulator.interfaces.PlayerColor.PlayerColor
 import simulator.interfaces.elements.{Action, PlaceMinion, Position, Result}
-import simulator.interfaces.{GameLogic, GameState, Player, PlayerMapping}
+import simulator.interfaces.{GameState, Player, PlayerMapping}
+import simulator.logic.ActionValidator
 
 import scala.io.StdIn
 import scala.util.{Failure, Success}
@@ -44,7 +45,7 @@ class UserPlayer(override val kind: PlayerColor, override val boardSize: Int) ex
       readAction(state, first)
     case cmd => ActionParser(cmd) match {
       case Success(a) =>
-        val valid = GameLogic.isValid(state, a)(kind)
+        val valid = ActionValidator(state, a)(kind)
         lazy val validFirst = a.isInstanceOf[PlaceMinion]
         if (!valid || first && !validFirst) {
           println("This was an invalid move. Either you are trying to cheat and got caught or you are not smart enough for Tak.")

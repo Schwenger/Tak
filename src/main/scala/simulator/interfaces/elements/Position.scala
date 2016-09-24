@@ -1,6 +1,8 @@
 package simulator.interfaces.elements
 
-case class Position(x: Int, y: Int)
+case class Position(x: Int, y: Int) {
+  @inline def valid(bound: Int) = (0 until bound contains x) && (0 until bound contains y)
+}
 
 // (0,0) is bottom right
 object Direction {

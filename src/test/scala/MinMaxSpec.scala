@@ -3,9 +3,10 @@ import ai.evaluation.{Evaluator, TokenCount}
 import ai.search.MinMax
 import org.scalatest._
 import parsing.state.StateDeserializer
+import simulator.analysis.ActionSupplier
 import simulator.interfaces.PlayerColor.{Black, PlayerColor, Red}
 import simulator.interfaces.elements._
-import simulator.interfaces.{ActionExecutor, GameLogic, GameState, PlayerColor}
+import simulator.interfaces.{ActionExecutor, GameState, PlayerColor}
 
 class MinMaxSpec extends FlatSpec with Matchers {
 
@@ -24,7 +25,7 @@ class MinMaxSpec extends FlatSpec with Matchers {
 
       val state = (str: String) => StateDeserializer(str)
 
-      val supplier: PlayerColor => GameState => Seq[Action] = (color: PlayerColor) => GameLogic.availableActions(_)(color)
+      val supplier: PlayerColor => GameState => Seq[Action] = (color: PlayerColor) => ActionSupplier(_)(color)
 
     }
 

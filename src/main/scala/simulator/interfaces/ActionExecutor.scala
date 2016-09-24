@@ -3,6 +3,7 @@ package simulator.interfaces
 import simulator.interfaces.PlayerColor.PlayerColor
 import simulator.interfaces.elements.Direction.Direction
 import simulator.interfaces.elements._
+import simulator.logic.ActionValidator
 
 
 object ActionExecutor {
@@ -17,7 +18,7 @@ object ActionExecutor {
   // TODO: when handing a state to the player, record checksum or similar to avoid spurious behavior
   // When changing this: adapt tests
   def apply(action: Action, old_state: GameState, player: PlayerColor): GameState = {
-    assert(GameLogic.isValid(old_state, action)(player))
+    assert(ActionValidator(old_state, action)(player))
     val state = old_state.copy
     action match {
       case PlaceCapstone(pos) =>

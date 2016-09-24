@@ -4,6 +4,7 @@ import java.util.concurrent.atomic.AtomicInteger
 
 import simulator.interfaces.PlayerColor.{Black, PlayerColor, Red}
 import simulator.interfaces.elements.{Action, PlaceMinion}
+import simulator.logic.GameOver
 
 import scala.collection.mutable
 
@@ -50,7 +51,7 @@ class Simulation(red: Player, black: Player, size: Int) {
     turn += 1
   }
 
-  def gameOver: Option[PlayerColor] = GameLogic.gameOver(state)
+  def gameOver: Option[PlayerColor] = GameOver(state)
 
 }
 

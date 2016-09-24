@@ -2,12 +2,13 @@ package ai.players
 
 import ai.evaluation.Evaluator
 import ai.search.MinMax
+import simulator.analysis.ActionSupplier
 import simulator.interfaces.PlayerColor.PlayerColor
 import simulator.interfaces.elements.{Action, Minion, Position, Result}
-import simulator.interfaces.{GameLogic, GameState, Player, PlayerMapping}
+import simulator.interfaces.{GameState, Player, PlayerMapping}
 
 class MinMaxPlayer(override val kind: PlayerColor, eval: Evaluator, depth: Int = 3, override val boardSize: Int) extends Player {
-  val supplier: GameState => Seq[Action] = GameLogic.availableActions(_)(kind)
+  val supplier: GameState => Seq[Action] = ActionSupplier(_)(kind)
 
   /**
     * Called once before the actual game starts.

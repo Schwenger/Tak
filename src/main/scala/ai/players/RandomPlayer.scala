@@ -1,8 +1,9 @@
 package ai.players
 
+import simulator.analysis.ActionSupplier
 import simulator.interfaces.PlayerColor.PlayerColor
 import simulator.interfaces.elements.{Action, Position, Result}
-import simulator.interfaces.{GameLogic, GameState, Player, PlayerMapping}
+import simulator.interfaces.{GameState, Player, PlayerMapping}
 
 import scala.util.Random
 
@@ -24,7 +25,7 @@ class RandomPlayer(override val kind: PlayerColor, override val boardSize: Int) 
     * @return the action that is supposed to be executed next for this player.
     */
 override def nextAction(turn: PlayerMapping[Action], state: GameState): Action = {
-  val available = GameLogic.availableActions(state)(kind)
+  val available = ActionSupplier(state)(kind)
   available(Random.nextInt(available.length))
 }
 

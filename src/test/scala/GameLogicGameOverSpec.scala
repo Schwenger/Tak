@@ -1,7 +1,8 @@
 import org.scalatest.{FlatSpec, Matchers}
 import simulator.interfaces.PlayerColor.{Black, Red}
-import simulator.interfaces.{GameLogic, GameState}
+import simulator.interfaces.GameState
 import simulator.interfaces.elements._
+import simulator.logic.GameOver
 
 class GameLogicGameOverSpec extends FlatSpec with Matchers {
   def fixture =
@@ -77,7 +78,7 @@ class GameLogicGameOverSpec extends FlatSpec with Matchers {
     val f = fixture
     val state = f.state
     state.clearField(Position(1,1))
-    GameLogic.gameOver(state) should be (None)
+    GameOver(state) should be (None)
   }
 
   it should "identify the street" in {
@@ -91,7 +92,7 @@ class GameLogicGameOverSpec extends FlatSpec with Matchers {
      */
     val f = fixture
     val state = f.state
-    GameLogic.gameOver(state) should be (Some(Black))
+    GameOver(state) should be (Some(Black))
   }
 
   it should "not count Walls for streets" in {
@@ -107,7 +108,7 @@ class GameLogicGameOverSpec extends FlatSpec with Matchers {
     val state = f.state
     state.clearField(Position(2,0))
     state.setField(Position(2,0), f.blackWall)
-    GameLogic.gameOver(state) should be (None)
+    GameOver(state) should be (None)
   }
 
   it should "count Capstones for streets" in {
@@ -123,7 +124,7 @@ class GameLogicGameOverSpec extends FlatSpec with Matchers {
     val state = f.state
     state.clearField(Position(2,0))
     state.setField(Position(2,0), f.blackCap)
-    GameLogic.gameOver(state) should be (Some(Black))
+    GameOver(state) should be (Some(Black))
   }
 
   it should "detect an invalid situation" in {
@@ -139,7 +140,7 @@ class GameLogicGameOverSpec extends FlatSpec with Matchers {
     val state = f.state
     state.setField(Position(1,3), f.redMin)
     a [IllegalStateException] should be thrownBy {
-      GameLogic.gameOver(state)
+      GameOver(state)
     }
   }
 
@@ -156,7 +157,7 @@ class GameLogicGameOverSpec extends FlatSpec with Matchers {
      */
     val f = fixture
     val state = f.state2
-    GameLogic.gameOver(state) should be (Some(Red))
+    GameOver(state) should be (Some(Red))
   }
 
   it should "not count Capstones for points when the board is full" in {
@@ -179,7 +180,7 @@ class GameLogicGameOverSpec extends FlatSpec with Matchers {
     state.clearField(Position(3,2))
     state.setField(Position(3,2), f.redCap)
 
-    GameLogic.gameOver(state) should be (Some(Black))
+    GameOver(state) should be (Some(Black))
   }
 
   it should "not count Walls for points when the board is full" in {
@@ -202,7 +203,7 @@ class GameLogicGameOverSpec extends FlatSpec with Matchers {
     state.clearField(Position(3,2))
     state.setField(Position(3,2), f.redWall)
 
-    GameLogic.gameOver(state) should be (Some(Black))
+    GameOver(state) should be (Some(Black))
   }
 
   it should "detect a draw and let black win" in {
@@ -222,7 +223,7 @@ class GameLogicGameOverSpec extends FlatSpec with Matchers {
     state.clearField(Position(1,2))
     state.setField(Position(1,2), f.redWall)
 
-    GameLogic.gameOver(state) should be (Some(Black))
+    GameOver(state) should be (Some(Black))
   }
 
   it should "detect even the most tangled street" in {
@@ -263,6 +264,6 @@ class GameLogicGameOverSpec extends FlatSpec with Matchers {
     state.setField(Position(4,3), f.blackMin)
     state.setField(Position(4,4), f.blackMin)
 
-    GameLogic.gameOver(state) should be (Some(Black))
+    GameOver(state) should be (Some(Black))
   }
 }
