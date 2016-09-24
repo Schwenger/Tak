@@ -24,10 +24,10 @@ class RandomPlayer(override val kind: PlayerColor, override val boardSize: Int) 
     * @param state the current game state
     * @return the action that is supposed to be executed next for this player.
     */
-override def nextAction(turn: PlayerMapping[Action], state: GameState): Action = {
-  val available = ActionSupplier(state)(kind)
-  available(Random.nextInt(available.length))
-}
+  override def nextAction(turn: PlayerMapping[Action], state: GameState): Action = {
+    val available = ActionSupplier(state)(kind)
+    available(Random.nextInt(available.length))
+  }
 
   /**
     * Called once after init and before the first call to nextAction.
