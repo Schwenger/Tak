@@ -11,6 +11,9 @@ object Main {
     }
     interface.greet()
     interface.play()
+    while(interface.rematch)
+      interface.play()
+    interface.bye()
   }
 
 }
