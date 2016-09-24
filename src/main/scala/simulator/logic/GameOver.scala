@@ -1,5 +1,6 @@
 package simulator.logic
 
+import simulator.analysis.Analyzer
 import simulator.interfaces.PlayerColor.{Black, PlayerColor, Red}
 import simulator.interfaces.elements.Direction.Direction
 import simulator.interfaces.elements.{Direction, Position, Token}
@@ -26,7 +27,7 @@ object GameOver {
   }
 
   def fullBoard(state: GameState): Option[PlayerColor] = {
-    if(state.freeFields != 0)
+    if(Analyzer.freeFields(state) != 0)
       return None
     def field2points(accu: PlayerMapping[Int], field: Option[Token]): PlayerMapping[Int] = field match {
       case Some(t) if t.player == Red   && t.worthAPoint => PlayerMapping(accu.red + 1, accu.black)

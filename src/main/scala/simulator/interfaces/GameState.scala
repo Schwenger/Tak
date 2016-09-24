@@ -23,6 +23,7 @@ class GameState private (val size: Int, initializer: (Int, Int) => Option[Token]
 
   // Static Data
   val numTokens = Map(2 -> (3, 0), 3 -> (8, 0), 4 -> (15, 0), 5 -> (20, 1), 6 -> (30, 1), 7 -> (40, 2), 8 -> (50, 2))
+  val positionCache = Seq.tabulate(size, size)(Position)
 
   // Dynamic Data
   private val board = mutable.Seq.tabulate(size, size)(initializer)
@@ -35,19 +36,17 @@ class GameState private (val size: Int, initializer: (Int, Int) => Option[Token]
 
   def dominatedBy(pos: Position, color: PlayerColor) = this(pos) exists (_.player == color)
 
-  // Analytical Information (caller convenience)
-  def freeFields: Int = (board map (_.count(_.isEmpty))).sum
-
-  def domination: PlayerMapping[Int] =
-    fold(PlayerMapping(0,0))((accu, field) =>
-      field.map(_.player) match {
-        case Some(Red) => PlayerMapping(accu.red + 1, accu.black)
-        case Some(Black) => PlayerMapping(accu.red, accu.black + 1)
-        case None => accu
-      }
-    )
+  // Folding/Iteration
 
   def fold[T](init: T)(f: (T, Option[Token]) => T) = board.foldLeft(init)((accu, row) => row.foldLeft(accu)(f))
+
+  def foldPosition[T](init: T)(f: (T, Position) => T) = positionCache.foldLeft(init)((accu, row) => row.foldLeft(accu)(f))
+
+  def map[T](f: Option[Token] => T): Seq[Seq[T]] = board map (_ map f)
+
+  def mapPosition[T](f: Position => T): Seq[Seq[T]] = positionCache map (_ map f)
+
+  def zipWithPosition: Seq[Seq[(Option[Token], Position)]] = board.zip(positionCache).map(row => row._1.zip(row._2))
 
   // Player Information
   def minionsLeft(player: PlayerColor): Int = tokens(player)._1
