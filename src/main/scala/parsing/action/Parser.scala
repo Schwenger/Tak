@@ -34,7 +34,7 @@ object Parser extends Parsers {
 
   private def position: Parser[ASTPosition] = {
     (
-      opt(MY) ~ opt(POSITION) ~ LPAR ~> number ~ (COMMA ~> number) <~ RPAR
+      opt(POSITION) ~ LPAR ~> number ~ (COMMA ~> number) <~ RPAR
         | opt(POSITION) ~> number ~ (COMMA ~> number)
       ) ^^ { case x ~ y => ASTPosition(x, y) }
   }
@@ -56,18 +56,18 @@ object Parser extends Parsers {
     }
 
   private def slide: Parser[ASTSlide] =
-    (SLIDECMD ~> position ~ direction ~ ((DROP | TAKE) ~> movelist)) ^^ {
+    (SLIDECMD ~ opt((MY | A) ~ opt(token)) ~ opt(AT | FROM) ~> position ~ direction ~ (DROP ~> movelist)) ^^ {
       case pos ~ dir ~ moves => ASTSlide(pos, dir, moves)
     }
 
   private def move: Parser[ASTMove] =
-    (MOVECMD ~> position ~ (opt(TO) ~> (position | direction))) ^^ {
+    (MOVECMD ~ opt((MY | A) ~ opt(token)) ~ opt(AT | FROM) ~> position ~ (opt(TO) ~> (position | direction))) ^^ {
       case src ~ (dest: ASTPosition) => ASTMovePos(src, dest)
       case src ~ (dir: ASTDirection) => ASTMoveDir(src, dir)
     }
 
   private def place: Parser[ASTPlace] =
-    (PLACECMD ~ opt(A) ~> token ~ (opt(AT) ~> position)) ^^ {
+    (PLACECMD ~ opt(A | MY) ~> token ~ (opt(AT) ~> position)) ^^ {
       case kind ~ pos => ASTPlace(pos, kind)
     }
 

@@ -8,7 +8,7 @@ PlaceCmd ::= "place" | "set"
 Move ::= MoveCmd TokenPos ["to"] (Position | Direction)
 MoveCmd ::= "move" | "walk"
 
-Slide ::= SlideCmd TokenPos Direction ("drop" | "take") DropList
+Slide ::= SlideCmd TokenPos Direction "drop" DropList
 DropList ::= DropEntry ([","] DropEntry)*
 DropEntry ::= Number [["at"] Position]
 

@@ -15,7 +15,6 @@ case object NORTH     extends ActionParseToken
 case object SOUTH     extends ActionParseToken
 case object LPAR      extends ActionParseToken
 case object RPAR      extends ActionParseToken
-case object TAKE      extends ActionParseToken
 case object WEST      extends ActionParseToken
 case object EAST      extends ActionParseToken
 case object WALL      extends ActionParseToken
