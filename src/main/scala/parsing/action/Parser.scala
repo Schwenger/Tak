@@ -2,7 +2,7 @@ package parsing.action
 
 import scala.util.parsing.combinator.Parsers
 import scala.util.parsing.input.{NoPosition, Reader, Position => InputPos}
-import simulator.interfaces.game_elements.{Direction => GameDirection}
+import simulator.interfaces.elements.{Direction => GameDirection}
 
 import scala.util.Try
 

@@ -2,7 +2,7 @@
 import org.scalatest._
 import simulator.interfaces.{GameLogic, GameState, PlayerColor}
 import simulator.interfaces.PlayerColor.{Black, Red}
-import simulator.interfaces.game_elements._
+import simulator.interfaces.elements._
 
 class GameLogicValidMoveSpec extends FlatSpec with Matchers {
 

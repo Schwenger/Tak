@@ -1,6 +1,6 @@
 package parsing.state
 
-import simulator.interfaces.game_elements._
+import simulator.interfaces.elements._
 import simulator.interfaces.{GameState, PlayerColor}
 
 import scala.annotation.tailrec

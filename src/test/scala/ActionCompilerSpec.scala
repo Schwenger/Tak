@@ -1,6 +1,6 @@
 import org.scalatest.{FlatSpec, Matchers}
 import parsing.action.{Compiler, Lexer, Parser}
-import simulator.interfaces.game_elements._
+import simulator.interfaces.elements._
 
 import scala.util.Try
 

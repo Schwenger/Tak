@@ -2,7 +2,7 @@ package parsing.action
 
 import scala.util.Try
 
-import simulator.interfaces.game_elements.{Action => GameAction}
+import simulator.interfaces.elements.{Action => GameAction}
 
 object ActionParser {
   def apply(cmd: String): Try[GameAction] = {

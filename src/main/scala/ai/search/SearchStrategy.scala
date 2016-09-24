@@ -3,7 +3,7 @@ package ai.search
 import ai.evaluation.Evaluator
 import simulator.interfaces.GameState
 import simulator.interfaces.PlayerColor.PlayerColor
-import simulator.interfaces.game_elements.Action
+import simulator.interfaces.elements.Action
 
 class SearchNode[S](state: GameState, action: Action, context: S)
 

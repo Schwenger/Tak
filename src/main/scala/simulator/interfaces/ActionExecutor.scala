@@ -1,8 +1,8 @@
 package simulator.interfaces
 
 import simulator.interfaces.PlayerColor.PlayerColor
-import simulator.interfaces.game_elements.Direction.Direction
-import simulator.interfaces.game_elements._
+import simulator.interfaces.elements.Direction.Direction
+import simulator.interfaces.elements._
 
 
 object ActionExecutor {

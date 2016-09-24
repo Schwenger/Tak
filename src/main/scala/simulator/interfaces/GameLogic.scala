@@ -1,9 +1,9 @@
 package simulator.interfaces
 
 import simulator.interfaces.PlayerColor._
-import simulator.interfaces.game_elements._
-import simulator.interfaces.game_elements.ActionKind.ActionKind
-import simulator.interfaces.game_elements.Direction.Direction
+import simulator.interfaces.elements._
+import simulator.interfaces.elements.ActionKind.ActionKind
+import simulator.interfaces.elements.Direction.Direction
 object GameLogic {
 
   /**

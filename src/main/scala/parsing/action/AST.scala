@@ -1,6 +1,6 @@
 package parsing.action
 
-import simulator.interfaces.game_elements.Direction.{Direction => GameDirection}
+import simulator.interfaces.elements.Direction.{Direction => GameDirection}
 
 trait AST
 

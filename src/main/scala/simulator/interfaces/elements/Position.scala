@@ -1,4 +1,4 @@
-package simulator.interfaces.game_elements
+package simulator.interfaces.elements
 
 case class Position(x: Int, y: Int)
 

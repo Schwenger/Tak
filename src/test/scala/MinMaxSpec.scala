@@ -4,7 +4,7 @@ import ai.search.MinMax
 import org.scalatest._
 import parsing.state.StateDeserializer
 import simulator.interfaces.PlayerColor.{Black, PlayerColor, Red}
-import simulator.interfaces.game_elements._
+import simulator.interfaces.elements._
 import simulator.interfaces.{ActionExecutor, GameLogic, GameState, PlayerColor}
 
 class MinMaxSpec extends FlatSpec with Matchers {
