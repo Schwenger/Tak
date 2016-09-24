@@ -1,4 +1,4 @@
-import interfaces.CLI
+import interfaces.{CLI, DebugInterface}
 
 object Main {
 
@@ -8,6 +8,7 @@ object Main {
       case "-cli" => new CLI()
       case "-gui" => ???
       case "-api" => ???
+      case "-debug" => new DebugInterface(args.slice(1, args.length))
     }
     interface.greet()
     interface.play()
