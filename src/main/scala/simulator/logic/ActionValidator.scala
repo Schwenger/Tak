@@ -37,6 +37,8 @@ object ActionValidator {
 
   // TODO iterative -> recursive
   private def validSlide(state: GameState, src: Position, stones: List[Int], dir: Direction)(implicit player: PlayerColor): Boolean = {
+    if(stones.isEmpty)
+      return false
     if(!state.dominatedBy(src, player))
       return false
     if(stones.head > state.size)
