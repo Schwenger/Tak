@@ -1,6 +1,6 @@
 import org.scalatest.{FlatSpec, Matchers}
-import simulator.interfaces.PlayerColor.{Black, Red}
 import simulator.interfaces.GameState
+import simulator.interfaces.PlayerColor.{Black, Red}
 import simulator.interfaces.elements._
 import simulator.logic.GameOver
 

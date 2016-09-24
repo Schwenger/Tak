@@ -1,12 +1,12 @@
 
-import ai.evaluation.{Evaluator, TokenCount}
+import ai.evaluation.TokenCount
 import ai.search.MinMax
 import org.scalatest._
 import parsing.state.StateDeserializer
 import simulator.analysis.ActionSupplier
-import simulator.interfaces.PlayerColor.{Black, PlayerColor, Red}
+import simulator.interfaces.GameState
+import simulator.interfaces.PlayerColor.{PlayerColor, Red}
 import simulator.interfaces.elements._
-import simulator.interfaces.{ActionExecutor, GameState, PlayerColor}
 
 class MinMaxSpec extends FlatSpec with Matchers {
 

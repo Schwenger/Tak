@@ -1,8 +1,8 @@
 package ai.search
 import ai.evaluation.Evaluator
-import simulator.interfaces.{ActionExecutor, GameState}
 import simulator.interfaces.PlayerColor.PlayerColor
 import simulator.interfaces.elements.Action
+import simulator.interfaces.{ActionExecutor, GameState}
 
 sealed trait Comp {
   def apply[R](l: Seq[R])(implicit order: Ordering[R]): R

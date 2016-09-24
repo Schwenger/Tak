@@ -1,8 +1,8 @@
 
 import org.scalatest._
 import simulator.interfaces.PlayerColor.{Black, Red}
-import simulator.interfaces.{ActionExecutor, GameState, PlayerColor}
 import simulator.interfaces.elements._
+import simulator.interfaces.{ActionExecutor, GameState, PlayerColor}
 
 class ActionExecutorSpec extends FlatSpec with Matchers {
 

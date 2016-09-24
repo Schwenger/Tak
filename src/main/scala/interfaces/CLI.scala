@@ -1,7 +1,7 @@
 package interfaces
 
 import ai.players.UserPlayer
-import interfaces.opponent.{Jesus, Opponent}
+import interfaces.opponent.Opponent
 import simulator.interfaces.PlayerColor.{Black, PlayerColor, Red}
 import simulator.interfaces.{Player, PlayerColor, PlayerMapping, Simulator}
 

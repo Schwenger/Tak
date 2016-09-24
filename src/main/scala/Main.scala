@@ -1,4 +1,4 @@
-import interfaces.{CLI, Interface}
+import interfaces.CLI
 
 object Main {
 
