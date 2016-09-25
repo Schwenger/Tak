@@ -4,11 +4,11 @@ import simulator.interfaces.GameState
 import simulator.interfaces.PlayerColor.PlayerColor
 import simulator.logic.GameOver
 
-class GoalIndicator(override val color: PlayerColor) extends Evaluator {
+object GoalIndicator extends Evaluator {
 
-  override def apply(state: GameState): Int = GameOver(state) match {
-    case Some(c) if c == color => 2
-    case Some(c) if c != color => 0
-    case None => 1
-  }
+  override def apply(color: PlayerColor): Eval = state =>
+    GameOver(state) match {
+      case Some(c) if c == color => Double.PositiveInfinity
+      case _ => 0
+    }
 }
