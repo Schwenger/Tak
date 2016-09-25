@@ -1,9 +1,9 @@
 package ai.players
 
 import simulator.{GameState, Player, PlayerMapping}
-import simulator.analysis.ActionSupplier
 import simulator.elements.{Action, Position, Result}
 import simulator.PlayerColor.PlayerColor
+import simulator.logic.ActionSupplier
 
 import scala.util.Random
 

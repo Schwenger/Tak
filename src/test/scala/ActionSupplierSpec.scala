@@ -1,8 +1,8 @@
 import org.scalatest.{FlatSpec, Matchers}
 import parsing.state.StateDeserializer
 import simulator.PlayerColor
-import simulator.analysis.ActionSupplier
 import simulator.elements._
+import simulator.logic.ActionSupplier
 
 class ActionSupplierSpec extends FlatSpec with Matchers {
 
