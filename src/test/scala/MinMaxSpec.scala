@@ -1,5 +1,5 @@
 
-import ai.evaluation.{GoalIndicator, TokenCount}
+import ai.evaluation.{GoalIndicator, Domination}
 import ai.search.MinMax
 import org.scalatest._
 import parsing.state.StateDeserializer
@@ -30,7 +30,7 @@ class MinMaxSpec extends FlatSpec with Matchers {
   "MinMax" should "place a minion to increase the dominance" in {
     val f = fixture
     val c = Red
-    val eval = new TokenCount(c)
+    val eval = Domination(c)
     val stateStr =
       """
         | RM & RM
@@ -45,7 +45,7 @@ class MinMaxSpec extends FlatSpec with Matchers {
   it should "output the winning move for red with depth 1" in {
     val f = fixture
     val c = Red
-    val eval = new GoalIndicator(c)
+    val eval = GoalIndicator(c)
 
     val stateStr1 =
       """
@@ -88,7 +88,7 @@ class MinMaxSpec extends FlatSpec with Matchers {
   it should "prevent a loss by blocking the enemy's road" in {
     val f = fixture
     val c = Red
-    val eval = new GoalIndicator(c)
+    val eval = GoalIndicator(c)
 
     val stateStr1 =
       """
@@ -105,7 +105,7 @@ class MinMaxSpec extends FlatSpec with Matchers {
   it should "prevent a loss sliding in the way even though this means losing dominance" in {
     val f = fixture
     val c = Red
-    val eval = new GoalIndicator(c)
+    val eval = GoalIndicator(c)
 
     val stateStr1 =
       """

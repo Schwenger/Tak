@@ -1,6 +1,6 @@
 package interfaces.debugmode
 
-import ai.evaluation.TokenCount
+import ai.evaluation.Domination
 import ai.players.RandomPlayer
 import simulator.interfaces.PlayerColor
 

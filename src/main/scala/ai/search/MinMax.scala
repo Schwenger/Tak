@@ -1,6 +1,6 @@
 package ai.search
-import ai.evaluation.Evaluator
-import simulator.interfaces.PlayerColor.{Black, PlayerColor}
+import ai.evaluation.Eval
+import simulator.interfaces.PlayerColor.PlayerColor
 import simulator.interfaces.elements.Action
 import simulator.interfaces.{ActionExecutor, GameState}
 
@@ -21,7 +21,7 @@ object Max extends Comp {
 
 object MinMax extends SearchStrategy {
 
-  case class Node(from: Option[Action], prefAction: Option[Action], value: Int)
+  case class Node(from: Option[Action], prefAction: Option[Action], value: Double)
 
   /**
     * Applies the MinMax search strategy on the given state.
@@ -34,10 +34,10 @@ object MinMax extends SearchStrategy {
     * @param maxPlayer the player whose turn it is
     * @return best state w.r.t maximizing eval
     */
-  override def apply(state: GameState, eval: Evaluator, actionSupplier: (GameState, PlayerColor) => Seq[Action],
+  override def apply(state: GameState, eval: Eval, actionSupplier: (GameState, PlayerColor) => Seq[Action],
                      depth: Int, maxPlayer: PlayerColor): Action = {
 
-    implicit val order = Ordering.by[Node, Int](_.value)
+    implicit val order = Ordering.by[Node, Double](_.value)
     assert(depth > 0)
     /*
     Recursion step; calls itself until depth becomes 0.
