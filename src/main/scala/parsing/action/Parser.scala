@@ -1,6 +1,6 @@
 package parsing.action
 
-import simulator.interfaces.elements.{Direction => GameDirection}
+import simulator.elements.{Direction => GameDirection}
 
 import scala.util.Try
 import scala.util.parsing.combinator.Parsers

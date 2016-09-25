@@ -1,10 +1,10 @@
 package simulator.analysis
 
+import simulator.elements.ActionKind.ActionKind
+import simulator.elements.Direction.Direction
+import simulator.elements._
 import simulator.interfaces.GameState
 import simulator.interfaces.PlayerColor.PlayerColor
-import simulator.interfaces.elements._
-import simulator.interfaces.elements.ActionKind.ActionKind
-import simulator.interfaces.elements.Direction.Direction
 import simulator.logic.ActionValidator
 
 object ActionSupplier {

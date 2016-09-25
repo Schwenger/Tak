@@ -1,7 +1,7 @@
 import org.scalatest.{FlatSpec, Matchers}
 import parsing.action.GameToken.{Capstone, Minion, Wall}
 import parsing.action._
-import simulator.interfaces.elements.Direction
+import simulator.elements.Direction
 
 import scala.util.{Failure, Success, Try}
 

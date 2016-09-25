@@ -1,4 +1,4 @@
-package simulator.interfaces.elements
+package simulator.elements
 
 case class Position(x: Int, y: Int) {
   @inline def valid(bound: Int) = (0 until bound contains x) && (0 until bound contains y)

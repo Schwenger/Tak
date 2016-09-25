@@ -1,7 +1,7 @@
 
 import org.scalatest._
+import simulator.elements._
 import simulator.interfaces.PlayerColor.{Black, Red}
-import simulator.interfaces.elements._
 import simulator.interfaces.{GameState, PlayerColor}
 import simulator.logic.ActionValidator
 

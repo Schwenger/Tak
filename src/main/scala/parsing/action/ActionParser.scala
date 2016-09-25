@@ -1,11 +1,11 @@
 package parsing.action
 
-import simulator.interfaces.elements.{Action => GameAction}
+import simulator.elements.Action
 
 import scala.util.Try
 
 object ActionParser {
-  def apply(cmd: String): Try[GameAction] = {
+  def apply(cmd: String): Try[Action] = {
     Lexer(cmd) flatMap (Parser(_)) flatMap (Compiler(_))
   }
 

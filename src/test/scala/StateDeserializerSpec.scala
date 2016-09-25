@@ -1,7 +1,8 @@
 import org.scalatest.{FlatSpec, Matchers}
 import parsing.state.StateDeserializer
+import simulator.elements.{Capstone, Minion, Stack, Wall}
 import simulator.interfaces.PlayerColor.{Black, Red}
-import simulator.interfaces.elements.{Capstone, Minion, Stack, Wall}
+import simulator.elements.{Capstone, Minion, Stack}
 
 class StateDeserializerSpec extends FlatSpec with Matchers {
 

@@ -1,7 +1,8 @@
 import org.scalatest.{FlatSpec, Matchers}
+import simulator.elements.{Capstone, Minion, Position, Wall}
 import simulator.interfaces.GameState
 import simulator.interfaces.PlayerColor.{Black, Red}
-import simulator.interfaces.elements._
+import simulator.elements._
 import simulator.logic.GameOver
 
 class GameLogicGameOverSpec extends FlatSpec with Matchers {

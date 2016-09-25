@@ -1,4 +1,4 @@
-package simulator.interfaces.elements
+package simulator.elements
 
 import simulator.interfaces.PlayerColor.PlayerColor
 

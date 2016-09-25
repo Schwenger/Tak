@@ -2,8 +2,8 @@ package simulator.interfaces
 
 import java.util.concurrent.atomic.AtomicInteger
 
+import simulator.elements.{Action, PlaceMinion}
 import simulator.interfaces.PlayerColor.{Black, PlayerColor, Red}
-import simulator.interfaces.elements.{Action, PlaceMinion}
 import simulator.logic.GameOver
 
 import scala.collection.mutable

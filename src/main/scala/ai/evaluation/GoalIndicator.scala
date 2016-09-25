@@ -1,6 +1,5 @@
 package ai.evaluation
 
-import simulator.interfaces.GameState
 import simulator.interfaces.PlayerColor.PlayerColor
 import simulator.logic.GameOver
 

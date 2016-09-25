@@ -1,7 +1,7 @@
 package simulator.interfaces
 
-import simulator.interfaces.PlayerColor.{Black, PlayerColor, Red}
-import simulator.interfaces.elements.{Position, Stack, Token}
+import simulator.elements.{Position, Stack, Token}
+import simulator.interfaces.PlayerColor.PlayerColor
 
 import scala.collection.mutable
 

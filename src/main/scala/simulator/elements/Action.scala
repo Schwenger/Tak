@@ -1,6 +1,6 @@
-package simulator.interfaces.elements
+package simulator.elements
 
-import simulator.interfaces.elements.Direction.Direction
+import simulator.elements.Direction.Direction
 
 object ActionKind {
   sealed trait ActionKind

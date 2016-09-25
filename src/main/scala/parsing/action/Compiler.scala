@@ -1,7 +1,7 @@
 package parsing.action
 
 import parsing.action.GameToken.{Capstone, Minion, Stack, Wall}
-import simulator.interfaces.elements.{PlaceCapstone, PlaceMinion, PlaceWall, Action => GameAction, Direction => GameDirection, Move => MoveAction, Position => GamePosition, Slide => SlideAction, Surrender => SurrenderAction}
+import simulator.elements.{PlaceCapstone, PlaceMinion, PlaceWall, Action => GameAction, Direction => GameDirection, Move => MoveAction, Position => GamePosition, Slide => SlideAction, Surrender => SurrenderAction, _}
 
 import scala.annotation.tailrec
 import scala.util.{Success, Try}

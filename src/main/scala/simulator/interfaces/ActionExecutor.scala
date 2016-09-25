@@ -1,8 +1,8 @@
 package simulator.interfaces
 
+import simulator.elements.Direction.Direction
+import simulator.elements._
 import simulator.interfaces.PlayerColor.PlayerColor
-import simulator.interfaces.elements.Direction.Direction
-import simulator.interfaces.elements._
 import simulator.logic.ActionValidator
 
 

@@ -1,8 +1,8 @@
 package ai.players
 
 import parsing.action.ActionParser
+import simulator.elements.{Action, PlaceMinion, Position, Result}
 import simulator.interfaces.PlayerColor.PlayerColor
-import simulator.interfaces.elements.{Action, PlaceMinion, Position, Result}
 import simulator.interfaces.{GameState, Player, PlayerMapping}
 import simulator.logic.ActionValidator
 

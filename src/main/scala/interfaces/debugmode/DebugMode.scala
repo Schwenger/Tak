@@ -1,7 +1,6 @@
 package interfaces.debugmode
 
-import ai.players.MinMaxPlayer
-import simulator.interfaces.{Player, PlayerColor, Simulator}
+import simulator.interfaces.{Player, Simulator}
 
 abstract class DebugMode {
 

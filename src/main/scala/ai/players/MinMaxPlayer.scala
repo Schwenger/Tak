@@ -3,8 +3,8 @@ package ai.players
 import ai.evaluation.Eval
 import ai.search.MinMax
 import simulator.analysis.ActionSupplier
+import simulator.elements.{Action, Position, Result}
 import simulator.interfaces.PlayerColor.PlayerColor
-import simulator.interfaces.elements.{Action, Position, Result}
 import simulator.interfaces.{GameState, Player, PlayerMapping}
 
 class MinMaxPlayer(override val kind: PlayerColor, eval: Eval, depth: Int = 3, override val boardSize: Int) extends Player {
