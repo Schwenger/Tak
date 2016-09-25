@@ -1,6 +1,6 @@
 package ai
 
-import simulator.interfaces.GameState
+import simulator.GameState
 
 package object evaluation {
 

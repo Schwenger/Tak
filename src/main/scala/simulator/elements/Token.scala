@@ -1,6 +1,6 @@
 package simulator.elements
 
-import simulator.interfaces.PlayerColor.PlayerColor
+import simulator.PlayerColor.PlayerColor
 
 // Walls and Capstones are blocking.
 // Everything but Capstones is crushable

@@ -3,10 +3,10 @@ import ai.evaluation.{Domination, GoalIndicator}
 import ai.search.MinMax
 import org.scalatest._
 import parsing.state.StateDeserializer
+import simulator.GameState
 import simulator.analysis.ActionSupplier
 import simulator.elements._
-import simulator.interfaces.GameState
-import simulator.interfaces.PlayerColor.{PlayerColor, Red}
+import simulator.PlayerColor.{PlayerColor, Red}
 
 class MinMaxSpec extends FlatSpec with Matchers {
 

@@ -1,10 +1,10 @@
-package simulator.interfaces
+package simulator
 
 import java.util.concurrent.atomic.AtomicInteger
 
+import simulator.PlayerColor.{Black, PlayerColor, Red}
 import simulator.elements.{Action, PlaceMinion}
-import simulator.interfaces.PlayerColor.{Black, PlayerColor, Red}
-import simulator.logic.GameOver
+import simulator.logic.{ActionExecutor, GameOver}
 
 import scala.collection.mutable
 

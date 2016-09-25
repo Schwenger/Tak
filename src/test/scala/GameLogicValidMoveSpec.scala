@@ -1,8 +1,8 @@
 
 import org.scalatest._
+import simulator.{GameState, PlayerColor}
 import simulator.elements._
-import simulator.interfaces.PlayerColor.{Black, Red}
-import simulator.interfaces.{GameState, PlayerColor}
+import simulator.PlayerColor.{Black, Red}
 import simulator.logic.ActionValidator
 
 class GameLogicValidMoveSpec extends FlatSpec with Matchers {

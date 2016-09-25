@@ -2,8 +2,8 @@ package interfaces
 
 import ai.players.UserPlayer
 import interfaces.opponent.Opponent
-import simulator.interfaces.PlayerColor.{Black, PlayerColor, Red}
-import simulator.interfaces.{Player, PlayerColor, PlayerMapping, Simulator}
+import simulator.{Player, PlayerColor, PlayerMapping, Simulator}
+import simulator.PlayerColor.{Black, PlayerColor, Red}
 
 import scala.annotation.tailrec
 import scala.io.StdIn

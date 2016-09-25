@@ -1,6 +1,6 @@
 package ai.evaluation
 import simulator.analysis.Analyzer
-import simulator.interfaces.PlayerColor.PlayerColor
+import simulator.PlayerColor.PlayerColor
 
 object Domination extends Evaluator {
 

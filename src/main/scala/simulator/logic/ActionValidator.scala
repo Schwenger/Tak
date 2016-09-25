@@ -1,9 +1,9 @@
 package simulator.logic
 
+import simulator.GameState
 import simulator.elements.Direction.Direction
 import simulator.elements.{Action, Position, Token, Tokenizer, _}
-import simulator.interfaces.GameState
-import simulator.interfaces.PlayerColor.PlayerColor
+import simulator.PlayerColor.PlayerColor
 
 object ActionValidator {
 

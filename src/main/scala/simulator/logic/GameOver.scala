@@ -1,10 +1,10 @@
 package simulator.logic
 
+import simulator.{GameState, PlayerMapping}
 import simulator.analysis.Analyzer
 import simulator.elements.Direction.Direction
 import simulator.elements.{Direction, Position, Token}
-import simulator.interfaces.PlayerColor.{Black, PlayerColor, Red}
-import simulator.interfaces.{GameState, PlayerMapping}
+import simulator.PlayerColor.{Black, PlayerColor, Red}
 
 object GameOver {
 

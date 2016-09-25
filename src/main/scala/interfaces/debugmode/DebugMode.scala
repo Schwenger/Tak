@@ -1,6 +1,6 @@
 package interfaces.debugmode
 
-import simulator.interfaces.{Player, Simulator}
+import simulator.{Player, Simulator}
 
 abstract class DebugMode {
 

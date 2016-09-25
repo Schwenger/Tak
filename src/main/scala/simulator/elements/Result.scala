@@ -1,6 +1,6 @@
 package simulator.elements
 
-import simulator.interfaces.GameState
-import simulator.interfaces.PlayerColor.PlayerColor
+import simulator.GameState
+import simulator.PlayerColor.PlayerColor
 
 case class Result(winner: PlayerColor, state: GameState)

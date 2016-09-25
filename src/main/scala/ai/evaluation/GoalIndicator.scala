@@ -1,6 +1,6 @@
 package ai.evaluation
 
-import simulator.interfaces.PlayerColor.PlayerColor
+import simulator.PlayerColor.PlayerColor
 import simulator.logic.GameOver
 
 object GoalIndicator extends Evaluator {

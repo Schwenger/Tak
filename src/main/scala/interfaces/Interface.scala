@@ -1,6 +1,6 @@
 package interfaces
 
-import simulator.interfaces.{Player, PlayerMapping}
+import simulator.{Player, PlayerMapping}
 
 trait Interface {
 

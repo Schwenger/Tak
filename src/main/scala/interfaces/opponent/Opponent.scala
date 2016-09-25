@@ -1,8 +1,8 @@
 package interfaces.opponent
 
 import ai.players.RandomPlayer
-import simulator.interfaces.Player
-import simulator.interfaces.PlayerColor.PlayerColor
+import simulator.Player
+import simulator.PlayerColor.PlayerColor
 
 abstract class Opponent(val name: String, vit: Int, str: Int, int: Int, dex: Int) {
   val overall: Int = (vit + str + int + dex) / 4

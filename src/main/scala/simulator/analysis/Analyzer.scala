@@ -1,7 +1,7 @@
 package simulator.analysis
 
-import simulator.interfaces.PlayerColor.{Black, Red}
-import simulator.interfaces.{GameState, PlayerMapping}
+import simulator.{GameState, PlayerMapping}
+import simulator.PlayerColor.{Black, Red}
 
 object Analyzer {
 

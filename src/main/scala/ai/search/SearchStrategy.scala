@@ -1,9 +1,9 @@
 package ai.search
 
 import ai.evaluation.Eval
+import simulator.GameState
 import simulator.elements.Action
-import simulator.interfaces.GameState
-import simulator.interfaces.PlayerColor.PlayerColor
+import simulator.PlayerColor.PlayerColor
 
 trait SearchStrategy {
 

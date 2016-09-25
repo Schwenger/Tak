@@ -1,7 +1,7 @@
-package simulator.interfaces
+package simulator
 
 import simulator.elements.{Position, Stack, Token}
-import simulator.interfaces.PlayerColor.PlayerColor
+import PlayerColor.PlayerColor
 
 import scala.collection.mutable
 

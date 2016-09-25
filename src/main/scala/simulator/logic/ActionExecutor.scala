@@ -1,9 +1,9 @@
-package simulator.interfaces
+package simulator.logic
 
+import simulator.GameState
 import simulator.elements.Direction.Direction
 import simulator.elements._
-import simulator.interfaces.PlayerColor.PlayerColor
-import simulator.logic.ActionValidator
+import simulator.PlayerColor.PlayerColor
 
 
 object ActionExecutor {

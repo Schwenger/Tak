@@ -2,7 +2,7 @@ package interfaces.debugmode
 
 import ai.evaluation.Domination
 import ai.players.{MinMaxPlayer, RandomPlayer}
-import simulator.interfaces.PlayerColor
+import simulator.PlayerColor
 
 object MinMaxPlayerMode extends DebugMode {
 

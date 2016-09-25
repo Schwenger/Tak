@@ -1,7 +1,7 @@
 package interfaces.debugmode
 
 import ai.players.RandomPlayer
-import simulator.interfaces.PlayerColor
+import simulator.PlayerColor
 
 object RandomPlayerMode extends DebugMode {
 

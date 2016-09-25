@@ -1,7 +1,7 @@
-package simulator.interfaces
+package simulator
 
+import simulator.PlayerColor.{Black, PlayerColor, Red}
 import simulator.elements.{Action, Position, Result}
-import simulator.interfaces.PlayerColor.{Black, PlayerColor, Red}
 
 object PlayerColor {
   sealed trait PlayerColor {

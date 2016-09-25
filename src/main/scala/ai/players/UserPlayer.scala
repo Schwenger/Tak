@@ -1,9 +1,9 @@
 package ai.players
 
 import parsing.action.ActionParser
+import simulator.{GameState, Player, PlayerMapping}
 import simulator.elements.{Action, PlaceMinion, Position, Result}
-import simulator.interfaces.PlayerColor.PlayerColor
-import simulator.interfaces.{GameState, Player, PlayerMapping}
+import simulator.PlayerColor.PlayerColor
 import simulator.logic.ActionValidator
 
 import scala.io.StdIn

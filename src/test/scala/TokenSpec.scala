@@ -1,7 +1,7 @@
 
 import org.scalatest._
+import simulator.PlayerColor
 import simulator.elements.{Capstone, Minion, Stack, Wall}
-import simulator.interfaces.PlayerColor
 
 class TokenSpec extends FlatSpec with Matchers {
 

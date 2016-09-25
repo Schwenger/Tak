@@ -1,8 +1,9 @@
 package ai.search
 import ai.evaluation.Eval
+import simulator.GameState
 import simulator.elements.Action
-import simulator.interfaces.PlayerColor.PlayerColor
-import simulator.interfaces.{ActionExecutor, GameState}
+import simulator.PlayerColor.PlayerColor
+import simulator.logic.ActionExecutor
 
 import scala.util.Random
 
