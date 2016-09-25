@@ -55,7 +55,7 @@ class GameState private (val size: Int, initializer: (Int, Int) => Option[Token]
 
   // Changing State
   def removeToken(player: PlayerColor, minion: Boolean) = {
-    tokens = tokens.map((old, color) => (color == player, minion) match {
+    tokens = tokens.transform((color, old) => (color == player, minion) match {
       case (true, true)  => (old._1 - 1, old._2)
       case (true, false) => (old._1, old._2 - 1)
       case _ => old
