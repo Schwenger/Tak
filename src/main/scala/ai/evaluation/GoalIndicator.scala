@@ -7,7 +7,8 @@ object GoalIndicator extends Evaluator {
 
   override def apply(color: PlayerColor): Eval = state =>
     GameOver(state) match {
-      case Some(c) if c == color => Double.PositiveInfinity
-      case _ => 0
+      case Some(c) if c == color => println("game over"); Double.PositiveInfinity
+      case Some(c) => 0
+      case _ => 1
     }
 }
