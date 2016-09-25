@@ -1,4 +1,5 @@
 import org.scalatest.{FlatSpec, Matchers}
+import parsing.state.StateDeserializer
 import simulator.GameState
 import simulator.elements.{Capstone, Minion, Position, Wall}
 import simulator.PlayerColor.{Black, Red}
@@ -93,6 +94,17 @@ class GameLogicGameOverSpec extends FlatSpec with Matchers {
      */
     val f = fixture
     val state = f.state
+    GameOver(state) should be (Some(Black))
+  }
+
+  it should "identify the vertical street" in {
+    val stateStr =
+      """
+        |_  & BM & _
+        |_  & BM & _
+        |RM & BM & _
+      """.stripMargin
+    val state = StateDeserializer(stateStr)
     GameOver(state) should be (Some(Black))
   }
 
