@@ -2,8 +2,8 @@ package simulator
 
 import java.util.concurrent.atomic.AtomicInteger
 
-import simulator.PlayerColor.{Black, PlayerColor, Red}
-import simulator.elements.{Action, PlaceMinion}
+import simulator.PlayerColor.{Black, Red}
+import simulator.elements.{Action, PlaceMinion, Result}
 import simulator.logic.{ActionExecutor, GameOver}
 
 import scala.collection.mutable
@@ -51,7 +51,12 @@ class Simulation(red: Player, black: Player, size: Int) {
     turn += 1
   }
 
-  def gameOver: Option[PlayerColor] = GameOver(state)
+  def end(res: Result) = {
+    red.accept(res)
+    black.accept(res)
+  }
+
+  def gameOver: Option[Result] = GameOver(state) map (c => Result(c, state))
 
 }
 
@@ -70,17 +75,18 @@ object Simulator {
     */
   def apply(red: Player, black: Player, size: Int = 4) = {
       val sim = new Simulation(red, black, size)
-      var result: Option[PlayerColor] = None
+      var result: Option[Result] = None
 
       sim.simulateFirstTurn()
       do {
         sim.simulateTurn()
         result = sim.gameOver
       } while (result.isEmpty)
+      sim.end(result.get)
 
       running.decrementAndGet()
       over.incrementAndGet()
-      result.get match {
+      result.get.winner match {
         case Red => won._1.incrementAndGet()
         case Black => won._2.incrementAndGet()
       }

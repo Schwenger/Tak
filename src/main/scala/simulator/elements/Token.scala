@@ -69,6 +69,10 @@ case class Stack(content: List[Token]) extends Token(player = content.head.playe
       case _ => Stack(top :: botList)
     }
   }
+
+  override def toString: String = {
+    content.foldLeft("Stack(")((s, t) => s + t) + ")"
+  }
 }
 
 case class Capstone(p: PlayerColor) extends Token(player = p, blocking = true, crushing = true, crushable = false,

@@ -9,7 +9,7 @@ import simulator.logic.ActionValidator
 import scala.io.StdIn
 import scala.util.{Failure, Success}
 
-class UserPlayer(override val kind: PlayerColor, override val boardSize: Int) extends Player {
+class UserPlayer(override val kind: PlayerColor, override val boardSize: Int, verbose: Boolean = false) extends Player {
 
   /**
     * Called once before the actual game starts.
@@ -32,9 +32,11 @@ class UserPlayer(override val kind: PlayerColor, override val boardSize: Int) ex
     */
   override def nextAction(turn: PlayerMapping[Action], state: GameState): Action = {
     println("The opposing player used " + turn.black)
-    println()
-    println(state)
-    println()
+    if(verbose) {
+      println()
+      println(state)
+      println()
+    }
     println("What do you want to do?")
     readAction(state)
   }

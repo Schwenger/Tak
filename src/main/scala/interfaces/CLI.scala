@@ -111,8 +111,11 @@ class CLI extends Interface {
       val black = (size: Int) => opponentB.toPlayer(Black, size)
       PlayerMapping(red, black)
     case 1 =>
+      println()
+      println("Do you want to see the board after each action?")
+      val verbose = readYesNo("Ok, you'll get the board. Live with it.", fallback = true)
       val human = colorDialog
-      val humanPlayer = (size:Int) => new UserPlayer(human, size)
+      val humanPlayer = (size:Int) => new UserPlayer(human, size, verbose)
       val opp = opponentDialog
       println(s"You will play against ${opp.name}.")
       val oppPlayer = (size: Int) => opp.toPlayer(!human, size)
