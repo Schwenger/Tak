@@ -1,5 +1,5 @@
 package ai.search
-import ai.evaluation.Eval
+import ai.evaluation.Evaluator
 import simulator.GameState
 import simulator.elements.Action
 import simulator.PlayerColor.PlayerColor
@@ -35,7 +35,7 @@ object MinMax extends SearchStrategy {
     * @param maxPlayer the player whose turn it is
     * @return best state w.r.t maximizing eval
     */
-  override def apply(state: GameState, eval: Eval, actionSupplier: (GameState, PlayerColor) => Seq[Action],
+  override def apply(state: GameState, eval: Evaluator, actionSupplier: (GameState, PlayerColor) => Seq[Action],
                      depth: Int, maxPlayer: PlayerColor): Action = {
 
     implicit val order = Ordering.by[Node, Double](_.value)

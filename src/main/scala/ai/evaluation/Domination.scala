@@ -2,8 +2,8 @@ package ai.evaluation
 import simulator.analysis.Analyzer
 import simulator.PlayerColor.PlayerColor
 
-object Domination extends Evaluator {
+object Domination extends AbstractEvaluator {
 
-  override def apply(color: PlayerColor): Eval = state => Analyzer.domination(state)(color)
+  override def apply(color: PlayerColor): Evaluator = state => Analyzer.domination(state)(color)
 
 }

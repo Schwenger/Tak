@@ -1,14 +1,16 @@
 package ai.evaluation
 
+import ai.evaluation.Classification.{Loss, Neutral, Win}
 import simulator.PlayerColor.PlayerColor
 import simulator.logic.GameOver
 
-object GoalIndicator extends Evaluator {
+object GoalIndicator extends AbstractClassifier {
 
-  override def apply(color: PlayerColor): Eval = state =>
+  override def apply(color: PlayerColor): Classifier = state =>
     GameOver(state) match {
-      case Some(c) if c == color => println("game over"); Double.PositiveInfinity
-      case Some(c) => 0
-      case _ => 1
+      case Some(c) if c == color => Win
+      case Some(c) => Loss
+      case _ => Neutral
     }
+
 }

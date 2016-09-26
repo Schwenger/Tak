@@ -1,13 +1,13 @@
 package ai.players
 
-import ai.evaluation.Eval
+import ai.evaluation.Evaluator
 import ai.search.MinMax
 import simulator.{GameState, Player, PlayerMapping}
 import simulator.elements.{Action, Position, Result}
 import simulator.PlayerColor.PlayerColor
 import simulator.logic.ActionSupplier
 
-class MinMaxPlayer(override val kind: PlayerColor, eval: Eval, depth: Int = 3, override val boardSize: Int) extends Player {
+class MinMaxPlayer(override val kind: PlayerColor, eval: Evaluator, depth: Int = 3, override val boardSize: Int) extends Player {
   val supplier: (GameState, PlayerColor) => Seq[Action] = (state, color) => ActionSupplier(state)(color)
 
   /**
