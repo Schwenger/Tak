@@ -2,7 +2,7 @@ package simulator.analysis
 
 import simulator.{GameState, PlayerMapping}
 import simulator.PlayerColor.{Black, PlayerColor, Red}
-import simulator.elements.Direction.{Direction, Down, Up}
+import simulator.elements.Direction.Direction
 import simulator.elements.{Direction, Position}
 
 object Analyzer {
