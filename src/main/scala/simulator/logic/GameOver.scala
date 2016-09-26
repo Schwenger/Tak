@@ -21,7 +21,7 @@ object GameOver {
     (hor.red || vert.red, hor.black || vert.black) match {
       case (true, false) => Some(Red)
       case (false, true) => Some(Black)
-      case (true, true) => println("lol"); Some(Red)
+      case (true, true) => Some(Red)
       case (false, false) => fullBoard(state)
     }
   }
