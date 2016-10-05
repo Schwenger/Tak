@@ -1,8 +1,9 @@
+# Tak
+
 This project is a simulator and AI for the sublime strategy game Tak created by Fames Ernest and Patrick Rothfuss based on the fantasy novel 'The Wise Man's Fear'.
 
 The project is written in Scala and built using SBT.
 
-# Tak
 Tak's rules are fairly simple and easy to catch up on. The complexity in terms of the branching factory is comparable to chess and immensely lower than Go. 
 
 Therefore, it is a great opportunity to develop an artificial opponent. As opposed to chess, there are not myriads of strategies, simulators, AIs and whatnots online. So there is still room for experiments for young developers.
